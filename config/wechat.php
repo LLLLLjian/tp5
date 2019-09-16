@@ -1,9 +1,8 @@
 <?php
+
 /**
  * 配置文件
  *
- * @author 耐小心<i@naixiaoxin.com>
- * @copyright 2017-2018 耐小心
  */
 
 return [
@@ -29,7 +28,7 @@ return [
         'log' => [
             'permission' => 0777,
             'level' => env('WECHAT_LOG_LEVEL', 'debug'),
-            'file' => env('WECHAT_LOG_FILE', '/tmp/easywechat-dev/easywechat_'.date('Ymd').'.log'),
+            'file' => env('WECHAT_LOG_FILE', '/tmp/easywechat-dev/easywechat_' . date('Ymd') . '.log'),
         ],
     ],
 

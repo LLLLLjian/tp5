@@ -1,4 +1,5 @@
 <?php
+
 namespace app\index\controller;
 
 use think\Controller;
@@ -90,24 +91,24 @@ class Phonelog extends Controller
 
     public function list()
     {
-    $limit = input('get.limit');
-    $skip = (input('get.page', 1) - 1) * $limit;
-    $res = Db::connect("db_mongo")->name("phone_log")
-        ->order(array(
-        "_id" => - 1
-    ))
-        ->limit($skip, $limit)
-        ->select();
-    $count = Db::connect("db_mongo")->name("counters")
-        ->where("_id", "phone_log")
-        ->find();
-    $arr = array(
-        'code' => 0,
-        'msg' => '',
-        'count' => $count['seq'],
-        'data' => $res
-    );
-    
-    echo json_encode($arr);
-}
+        $limit = input('get.limit');
+        $skip = (input('get.page', 1) - 1) * $limit;
+        $res = Db::connect("db_mongo")->name("phone_log")
+            ->order(array(
+                "_id" => -1
+            ))
+            ->limit($skip, $limit)
+            ->select();
+        $count = Db::connect("db_mongo")->name("counters")
+            ->where("_id", "phone_log")
+            ->find();
+        $arr = array(
+            'code' => 0,
+            'msg' => '',
+            'count' => $count['seq'],
+            'data' => $res
+        );
+
+        echo json_encode($arr);
+    }
 }

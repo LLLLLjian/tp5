@@ -1,10 +1,12 @@
 <?php
+
 /**
  * File Name: Wechat.php
  * Author: llllljian
  * mail: 18634678077@163.com
  * Created Time: Sun 30 Jun 2019 03:35:47 PM CST
  **/
+
 namespace app\wechat\controller;
 
 use think\Controller;
@@ -33,7 +35,7 @@ class Wechat extends Controller
             }
             return "你说的消息我接收记录到了";
         });
-        
+
         $app->server->serve()->send();
     }
 
@@ -41,7 +43,7 @@ class Wechat extends Controller
     {
         // 先初始化微信
         $echoStr = input('param.echostr');
-        
+
         if ($this->checkSignature()) {
             echo $echoStr;
             exit();
@@ -51,12 +53,12 @@ class Wechat extends Controller
     private function checkSignature()
     {
         $param = input('param.');
-        
+
         $signature = $param["signature"];
         $timestamp = $param["timestamp"];
         $nonce = $param["nonce"];
         $token = config("wechat.official_account.default.token");
-        
+
         $tmpArr = array(
             $token,
             $timestamp,
@@ -66,14 +68,14 @@ class Wechat extends Controller
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode($tmpArr);
         $tmpStr = sha1($tmpStr);
-        
+
         if ($tmpStr == $signature) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     // 处理手机号相关信息
     protected function getPhoneInfo($mobile, $sqlType = 1)
     {
@@ -85,8 +87,8 @@ class Wechat extends Controller
         } else {
             $res = "";
         }
-        
-        if (! empty($res)) {
+
+        if (!empty($res)) {
             $resStr = "";
             $resStr .= "你查询的手机号为:" . $res['mobile'];
             $resStr .= ", 该手机号运营商为:" . $res['phone_type'];

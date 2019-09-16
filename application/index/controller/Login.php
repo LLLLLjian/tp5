@@ -1,4 +1,5 @@
 <?php
+
 namespace app\index\controller;
 
 use think\Controller;
@@ -8,7 +9,6 @@ use think\Db;
 
 class Login extends Controller
 {
-
     /**
      * 显示资源列表
      *
@@ -32,48 +32,48 @@ class Login extends Controller
         );
         $username = input('username');
         $password1 = input('password');
-        if (! $username || ! $password1) {
-            $res['code'] = - 1;
+        if (!$username || !$password1) {
+            $res['code'] = -1;
             $res['msg'] = "用户名、密码不能为空";
             echo json_encode($res);
             return;
         }
         $cms_password = "Llllljian";
         if (request()->isPost()) {
-            
-            if (! captcha_check(input('code'))) {
-                $res['code'] = - 1.5;
+
+            if (!captcha_check(input('code'))) {
+                $res['code'] = -1.5;
                 $res['msg'] = "验证码错误";
                 echo json_encode($res);
                 return;
             }
-            
+
             $password = md5($password1 . $cms_password);
             if ($username) { // 验证用户名
                 $rsu = Db::name('user')->where('username', $username)->find();
                 $countu = count($rsu);
-                if (! $countu) {
-                    $res['code'] = - 2;
+                if (!$countu) {
+                    $res['code'] = -2;
                     $res['msg'] = "用户名不存在";
                     echo json_encode($res);
                     return;
                 }
             }
-            
+
             if ($username && $password1) { // 验证密码
                 $rsp = Db::name('user')->where('username', $username)
                     ->where('password', $password)
                     ->find();
                 $countp = count($rsp);
-                if (! $countp) {
-                    $res['code'] = - 3;
+                if (!$countp) {
+                    $res['code'] = -3;
                     $res['msg'] = "密码错误";
                     echo json_encode($res);
                     return;
                 }
             }
             //记录时间及ip
-            Db::name('user')->where(array('id'=>$rsp['id']))->update(['last_login_time'=>time(), 'last_login_ip'=>request()->ip()]);
+            Db::name('user')->where(array('id' => $rsp['id']))->update(['last_login_time' => time(), 'last_login_ip' => request()->ip()]);
             //登录日志的记录
             $data["user_id"] = $rsp["id"];
             $data["ip"] = request()->ip();
@@ -82,7 +82,7 @@ class Login extends Controller
             $data["browser"] = get_broswer();
             $data["create_time"] = date('Y-m-d H:i:s', time());
             $data["type_os"] = get_os();
-            Db::name('user_login')->insert($data);            
+            Db::name('user_login')->insert($data);
 
             session('id', $rsp['id']);
             session('username', $rsp['username']);
@@ -91,7 +91,7 @@ class Login extends Controller
             return;
         }
     }
-    
+
     // 退出登录
     public function logout()
     {

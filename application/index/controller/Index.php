@@ -1,4 +1,5 @@
 <?php
+
 namespace app\index\controller;
 
 use think\Db;
@@ -11,55 +12,51 @@ class Index extends Common
         return $this->fetch();
     }
 
-	//ifrm的内容
-    public function welcome(){
-		// 系统
+    //ifrm的内容
+    public function welcome()
+    {
+        // 系统
         $systemInfo['os'] = PHP_OS;
-		//ThinkPHP 版本
+        //ThinkPHP 版本
         $systemInfo['ThinkPHP'] = \think\facade\App::version();;
-		// PHP版本
+        // PHP版本
         $systemInfo['phpversion'] = PHP_VERSION;
-		// 最大上传文件大小
+        // 最大上传文件大小
         $systemInfo['maxuploadfile'] = ini_get('upload_max_filesize');
-		// 脚本运行占用最大内存
+        // 脚本运行占用最大内存
         $systemInfo['memorylimit'] = get_cfg_var("memory_limit") ? get_cfg_var("memory_limit") : '-';
-		//当前的IP
-        $systemInfo['REMOTE_ADDR']=$_SERVER['REMOTE_ADDR'];
-		// 数据统计
-        $data["user"]=Db::name("user")->count();
-        $data["auth_role"]=Db::name("auth_role")->count();
+        //当前的IP
+        $systemInfo['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+        // 数据统计
+        $data["user"] = Db::name("user")->count();
+        $data["auth_role"] = Db::name("auth_role")->count();
 
-		//当前日期
-        $ymd=date("Y-m-d");
-        $this->assign("ymd",$ymd);
-        $this->assign("systemInfo",$systemInfo);
-        $this->assign("data",$data);
+        //当前日期
+        $ymd = date("Y-m-d");
+        $this->assign("ymd", $ymd);
+        $this->assign("systemInfo", $systemInfo);
+        $this->assign("data", $data);
         return $this->fetch('welcome');
     }
-    
-    public function get_info(){
-        $user_id=Session::get("id");
-        $find=Db::name("user")->where(["id"=>$id])->find();
-        if (empty($id)){
-            return json(["code"=>0,"msg"=>"不存在该用户的"]);
+
+    public function get_info()
+    {
+        $user_id = Session::get("id");
+        $find = Db::name("user")->where(["id" => $user_id])->find();
+        if (empty($user_id)) {
+            return json(["code" => 0, "msg" => "不存在该用户的"]);
         }
-        if (request()->isAjax()){
-            $list=request()->post();
-            /*if ($find["password"]==$list["password"]){
-                $list["password"]=$find["password"];
-            }else{
-                $list["password"]=pswCrypt($list["password"]);
-            }*/
-            $result=Db::name("user")->where(["id"=>$list["id"]])->update($list);
-            if ($result){
-                return json(["code"=>1,"msg"=>"编辑成功"]);
-            }else{
-                return json(["code"=>0,"msg"=>"编辑失败"]);
+        if (request()->isAjax()) {
+            $list = request()->post();
+            $result = Db::name("user")->where(["id" => $list["id"]])->update($list);
+            if ($result) {
+                return json(["code" => 1, "msg" => "编辑成功"]);
+            } else {
+                return json(["code" => 0, "msg" => "编辑失败"]);
             }
         }
-        $this->assign("find",$find);
+        $this->assign("find", $find);
         return $this->fetch("get_info");
-
     }
 
     public function hello($name = 'ThinkPHP5')
@@ -112,8 +109,8 @@ class Index extends Common
         } else {
             $res = "";
         }
-        
-        if (! empty($res)) {
+
+        if (!empty($res)) {
             $resStr = "";
             $resStr .= "你查询的手机号为:" . $res['mobile'];
             $resStr .= ", 该手机号运营商为:" . $res['phone_type'];

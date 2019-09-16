@@ -60,17 +60,17 @@ return [
     'break_reconnect' => false,
     // 断线标识字符串
     'break_match_str' => [],
-	// mongo配置
-	'db_mongo' => [
-		'type'    =>   '\think\mongo\Connection', 
-		'query'    =>   '\think\mongo\Query',
-		'hostname'    =>   '127.0.0.1',
-		'database'    =>   'llllljian',
-		'username'    =>   '',
-		'password'     =>   '',
-		'hostport'    =>   27017,
-		'charset'    =>   'utf8',
-		'inc_table' => 'counters',
-		'inc_column' => 'seq'
-	],
+    // mongo配置
+    'db_mongo' => [
+        'type'    =>   '\think\mongo\Connection',
+        'query'    =>   '\think\mongo\Query',
+        'hostname'    =>   '127.0.0.1',
+        'database'    =>   'llllljian',
+        'username'    =>   '',
+        'password'     =>   '',
+        'hostport'    =>   27017,
+        'charset'    =>   'utf8',
+        'inc_table' => 'counters',
+        'inc_column' => 'seq'
+    ],
 ];

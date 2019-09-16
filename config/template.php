@@ -32,14 +32,14 @@ return [
     'taglib_begin' => '{',
     // 标签库标签结束标记
     'taglib_end'   => '}',
-	// 是否开启模板编译缓存,设为false则每次都会重新编译
-	'tpl_cache' => false,
-	// 模板布局
-	'layout_on'     =>  false,
-	'layout_name'   =>  'layout',
-	// 输出模板替换
-	'tpl_replace_string'  =>  [
-		'__STATIC__' => '/tp5/public/static',
-		'__STATIC1__' => '/tp5/public/static1'
-	]
+    // 是否开启模板编译缓存,设为false则每次都会重新编译
+    'tpl_cache' => false,
+    // 模板布局
+    'layout_on'     =>  false,
+    'layout_name'   =>  'layout',
+    // 输出模板替换
+    'tpl_replace_string'  =>  [
+        '__STATIC__' => '/tp5/public/static',
+        '__STATIC1__' => '/tp5/public/static1'
+    ]
 ];

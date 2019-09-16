@@ -92,7 +92,7 @@ function array2tree(&$array, $pid = 'pid', $child_key_name = 'children')
         }
         $counter = $this->array_children_count($array, $pid);
     }
-    
+
     return $tree;
 }
 
@@ -110,10 +110,10 @@ function array_children_count($array, $pid)
     $counter = [];
     foreach ($array as $item) {
         $count = isset($counter[$item[$pid]]) ? $counter[$item[$pid]] : 0;
-        $count ++;
+        $count++;
         $counter[$item[$pid]] = $count;
     }
-    
+
     return $counter;
 }
 
@@ -134,12 +134,12 @@ function array_child_append($parent, $pid, $child, $child_key_name)
 {
     foreach ($parent as &$item) {
         if ($item['id'] == $pid) {
-            if (! isset($item[$child_key_name]))
+            if (!isset($item[$child_key_name]))
                 $item[$child_key_name] = [];
             $item[$child_key_name][] = $child;
         }
     }
-    
+
     return $parent;
 }
 
@@ -178,7 +178,7 @@ function logs($name, $value, $file = __FILE__, $line = __LINE__)
 function app_log($name, $value, $file = __FILE__, $line = __LINE__)
 {
     $value = "<?exit;?" . ">$file\t$line\t" . $value . "\n";
-    if (! is_dir(ROOT_PATH . 'cache')) { // 当路径不穿在
+    if (!is_dir(ROOT_PATH . 'cache')) { // 当路径不穿在
         mkdir(ROOT_PATH . 'cache', 0777);
         chmod(ROOT_PATH . 'cache', 0777);
     }
@@ -211,6 +211,6 @@ function delete_dir_file($dir_name)
             }
         }
     }
-    
+
     return $result;
 }
