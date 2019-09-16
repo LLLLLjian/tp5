@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>x-admin</title>
+    <link rel="stylesheet" href="__STATIC1__/xadmin/lib/layui/css/layui.css">
+    <style>
+    </style>
+    <script>
+        /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+    </script>
+</head>
+<body>
+<div class="layui-form">
+    <table class="layui-table">
+        {if condition="$find"}
+        <tr>
+            <td>
+                <label class="layui-form-label">父级菜单</label>
+            </td>
+            <td>
+                <div class="layui-input-block">
+                    <input type="text" id="parent_id" data-parent_id="{$find.id}" disabled value="{$find.name}" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="layui-form-label">菜单名称</label>
+            </td>
+            <td>
+                <div class="layui-input-block">
+                    <input type="text" id="name" required  lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="layui-form-label">节点</label>
+            </td>
+            <td>
+                <div class="layui-input-block">
+                    <input type="text" id="url"  required  lay-verify="required" placeholder="模块/控制器/方法" autocomplete="off" class="layui-input">
+                    <span class="help-block m-b-none">如：admin/user/add </span>
+                </div>
+            </td>
+        </tr>
+        {else /}
+        <tr>
+            <td>
+                <label class="layui-form-label">菜单名称</label>
+            </td>
+            <td>
+                <div class="layui-input-block">
+                    <input type="text" id="name" required  lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+                </div>
+            </td>
+        </tr>
+        {/if}
+
+
+
+        <tr>
+            <td>
+                <label class="layui-form-label">图标样式</label>
+            </td>
+            <td>
+                <div class="layui-input-block">
+                    <input type="text" id="ico"  placeholder="输入菜单名称前显示的CSS样式" autocomplete="off" class="layui-input">
+                    <span class="help-block m-b-none"> <a href="http://fontawesome.dashgame.com/" target="_black">选择图标</a> 如fa-user </span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="layui-form-label">排序</label>
+            </td>
+            <td>
+                <div class="layui-input-block">
+                    <input type="number" min="0" id="sort" name="sort" required  lay-verify="required" placeholder="输入排序" autocomplete="off" class="layui-input">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="layui-form-label">状态</label>
+            </td>
+            <td>
+                <div class="layui-input-block">
+                    <input type="radio" name="status" value="1" title="开启" checked>
+                    <input type="radio" name="status" value="2" title="关闭" >
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center">
+                <div class="layui-input-block">
+                    <button class="layui-btn" onclick="add_sumbit()">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="__STATIC1__/xadmin/lib/layui/jquery-3.2.1.min.js"></script>
+<script src="__STATIC1__/xadmin/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '__STATIC1__/xadmin/' //静态资源所在路径
+    });
+    layui.use(['laydate','form'], function(){
+        var laydate = layui.laydate;
+        var table = layui.table;
+        var form = layui.form;
+    });
+    //添加
+    function add_sumbit() {
+        //获取值
+        var parent_id=$("#parent_id").attr("data-parent_id");
+        var url=$("#url").val();
+        var name=$("#name").val();
+        var ico=$("#ico").val();
+        var sort=$("#sort").val();
+        var status = $('input[name=status]:checked').val();
+        $.post(
+            "{:url('index/authmenu/add')}",
+            {parent_id:parent_id,url:url,name:name,ico:ico,sort:sort,status:status},
+            function (data) {
+                console.log(data);
+                if(data.code==1){
+                    layer.msg(data.msg,{icon:1});
+                    setTimeout(function () {
+                        parent.layer.closeAll();
+                        parent.location.reload();
+                    },1500);
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+
+    }
+</script>
+</body>
+</html>

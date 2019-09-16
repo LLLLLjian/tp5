@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>x-admin</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/xadmin/lib/layui/css/layui.css" media="all">
+</head>
+<body>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-form" >
+            <input type="hidden" id="id" value="{$find.id}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">管理员名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" id="names" value="{$find.names}" required  lay-verify="required" placeholder="请输入管理员名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" id="email" value="{$find.email}" required  lay-verify="required" placeholder="请输入管理员邮箱" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" id="phone" value="{$find.phone}" required  lay-verify="required" placeholder="请输入管理员电话" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <!--<div class="layui-form-item">
+                <label class="layui-form-label">密码框</label>
+                <div class="layui-input-inline">
+                    <input type="password" id="password" name="password" value="{$find.password}" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">如果修改密码，请修改，反之则忽略</div>
+            </div>-->
+            <div class="layui-form-item">
+                <label class="layui-form-label">管理员头像</label>
+
+                <div class="layui-input-block">
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn" id="test1" data-src="{$find.admin_logo}">上传图片</button>
+                        <div class="layui-upload-list">
+                            <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px;" src="{$find.admin_logo}">
+                            <p id="demoText"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">管理员二维码</label>
+
+                <div class="layui-input-block">
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal" onclick="qr_code()" id="qr_code" data-src="{$find.qr_code}">点击生成</button>
+                    </div>
+                    <img class="layui-upload-img"  style="width: 100px;height: 100px;"  id="qr_code_img" src="{$find.qr_code}">
+                </div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="status" value="1" title="启用"   {if condition="$find.status eq 1 "}checked{/if}>
+                    <input type="radio" name="status" value="2" title="禁用"   {if condition="$find.status eq 2 "}checked{/if}>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit onclick="add_sumbit()" lay-filter="formDemo">立即提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/xadmin/lib/layui/jquery-3.2.1.min.js"></script>
+<script src="/static/xadmin/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/static/xadmin/' //静态资源所在路径
+    });
+    layui.use(['laydate','form'], function(){
+        var laydate = layui.laydate;
+        var table = layui.table;
+        var form = layui.form;
+    });
+    layui.use('upload', function() {
+        var $ = layui.jquery
+            , upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,url: "{:url('admin/upload/img_save',['type'=>'admin'])}"
+            ,accept:'file'  // 允许上传的文件类型
+            ,auto:true // 自动上传
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+            ,done: function(res){
+                if(res.code==1){
+                    $('#test1').attr('data-src', res.url);  //成功返回路径存到数据库
+                    return layer.msg('上传成功',{icon:1});
+                }else {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+    });
+
+    //添加
+    function add_sumbit() {
+        var id=$("#id").val();
+        //获取值
+        var names=$("#names").val();
+        /*var password=$("#password").val();*/
+        var email=$("#email").val();
+        var phone=$("#phone").val();
+        var status = $('input[name=status]:checked').val();
+        var admin_logo=$("#test1").attr("data-src");
+        var qr_code=$("#qr_code").attr("data-src");
+        $.post(
+            "{:url('admin/index/get_info')}",
+            {id:id,names:names,email:email,phone:phone,status:status,admin_logo:admin_logo,qr_code:qr_code},
+            function (data) {
+                console.log(data);
+                if(data.code==1){
+                    layer.msg(data.msg,{icon:1});
+                    setTimeout(function () {
+                        parent.layer.closeAll();
+                    },1500);
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+
+    }
+    
+    /*
+    生成二维码
+     */
+    function qr_code() {
+        $.post(
+            "{:url('admin/upload/qr_code')}", {"type":'admin'},
+            function (data) {
+                console.log(data);
+                if(data.code==1){
+                    layer.msg(data.msg,{icon:1});
+                    $("#qr_code").attr("data-src",data.url);
+                    $("#qr_code_img").attr("src",data.url);
+
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+    }
+</script>
+</body>
+</html>

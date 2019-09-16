@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>x-admin</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/xadmin/lib/layui/css/layui.css" media="all">
+</head>
+<body>
+<div class="layui-card">
+    <div class="layui-card-body" style="display: flex;">
+        <!--左搜索-->
+        <div class="layui-row" style="width: 50%;margin-right: 10px;border: 1px solid #D7D7D7;padding: 10px;display: flex;flex-direction: column;">
+            <form action="{:url('admin/system/dictionary')}" method="get">
+                <div style="display: flex">
+                    <input style="width: 80%;" type="text" id="keyword" name="keyword" value="{$keyword}" placeholder="请输入表名或表中文名称"  class="layui-input">
+                    <button class="layui-btn" style="margin-left: 20px;">搜索</button>
+                </div>
+            </form>
+
+            <!--左下面的显示列表-->
+            <div style="overflow-y: scroll;width: 100%;height: 800px;">
+                <!--<table class="layui-hide" id="test"></table>-->
+                <table class="layui-table" width="30%" id="left_table">
+                    <tr>
+                        <td>数据库</td>
+                        <td>数据表</td>
+                    </tr>
+                    {volist name="data" id="vo"}
+                        <tr id="list">
+                            <td >{$vo.datebase}</td>
+                            <td  onclick="table_list(this)" table_name-data="{$vo.table_name}" datebase-data="{$vo.datebase}">{$vo.table_name}（{$vo.table_zname}）</td>
+                        </tr>
+
+                    {/volist}
+
+                </table>
+            </div>
+        </div>
+        <!--右显示-->
+        <div class="layui-row" style="width: 70%;border: 1px solid #D7D7D7;padding: 10px;">
+            <h2 style="width: 100%;text-align: center;line-height: 45px;border-bottom:1px solid #D7D7D7 ;">表信息</h2>
+            <div style="overflow-y: scroll;width: 100%;height: 800px;">
+                <table class="layui-table" id="layui-table_id">
+
+                    <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>字段类型</th>
+                        <th>注释</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="ullist">
+                    <tr>
+
+                    </tr>
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="/static/xadmin/lib/layui/jquery-3.2.1.min.js"></script>
+<script src="/static/xadmin/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/static/xadmin/' //静态资源所在路径
+    });
+    layui.use(['laydate','form'], function(){
+        var laydate = layui.laydate;
+        var table = layui.table;
+        var form = layui.form;
+    });
+    function table_list(t) {
+        var table_name=$(t).attr("table_name-data");
+        var datebase=$(t).attr("datebase-data");
+        $.post('{:url("admin/system/dictionary")}', {
+            'table_name': table_name,
+            'datebase': datebase
+        }, function(data) {
+            if(data.code==1){
+                var data = data.data;
+                var len =data.length;
+                var str='';
+                for(var i=0;i<len;i++){
+                    str+='<tr><td style="width: 30%">'+data[i]["table_z"]+'</td><td>'+data[i]["table_type"]+'</td><td>'+data[i]["table_zname"]+'</td></tr>';
+                }
+                $('#ullist').html(str);
+            } else{
+                layer.alert(data.msg);
+            }
+        })
+    }
+</script>
+</body>
+</html>

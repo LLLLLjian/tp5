@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    <head>
+        <meta charset="UTF-8">
+        <title>欢迎页面-X-admin2.2</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="__STATIC1__/xadmin/css/font.css">
+         <link rel="stylesheet" href="__STATIC1__/xadmin/css/xadmin.css">
+        <script src="__STATIC1__/xadmin/lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="__STATIC1__/xadmin/js/xadmin.js"></script>
+        <link rel="stylesheet" href="__STATIC1__/xadmin/lib/layui/css/layui.css" media="all">
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body ">
+                            <blockquote class="layui-elem-quote" >
+                                <a href="#" onclick="clers()" class="layui-btn layui-btn-normal">清除缓存</a>
+                            </blockquote>
+
+                        </div>
+                        <div class="layui-card-body ">
+                            <blockquote class="layui-elem-quote" >欢迎:<span class="x-red">{$role["role_name"]}</span>-
+                                <span class="x-red">{$username}</span>！当前日期:<span class="x-red">{$ymd}</span>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">数据统计</div>
+                        <div class="layui-card-body ">
+                            <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>会员数</h3>
+                                        <p>
+                                            <cite>{$data["user"]}</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>角色数</h3>
+                                        <p>
+                                            <cite>{$data["auth_role"]}</cite></p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">系统信息</div>
+                        <div class="layui-card-body ">
+                            <table class="layui-table">
+                                <tbody>
+                                    <tr>
+                                        <td>当前系统</td>
+                                        <td>{$systemInfo['os']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>当前的IP</td>
+                                        <td>{$systemInfo['REMOTE_ADDR']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PHP版本</td>
+                                        <td>{$systemInfo['phpversion']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ThinkPHP</td>
+                                        <td>{$systemInfo['ThinkPHP']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>上传附件限制</td>
+                                        <td>{$systemInfo['maxuploadfile']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>脚本运行占用最大内存</td>
+                                        <td>{$systemInfo['memorylimit']}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <style id="welcome_style"></style>
+                <div class="layui-col-md12">
+                    <blockquote class="layui-elem-quote layui-quote-nm">感谢layui,百度Echarts,jquery,本系统由x-admin提供技术支持。</blockquote></div>
+            </div>
+        </div>
+        </div>
+    </body>
+</html>
+<script src="__STATIC1__/xadmin/lib/layui/jquery-3.2.1.min.js"></script>
+<script src="__STATIC1__/xadmin/lib/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '__STATIC1__/xadmin/' //静态资源所在路径
+    });
+    layui.use(['laydate','form'], function(){
+        var laydate = layui.laydate;
+        var table = layui.table;
+        var form = layui.form;
+    });
+
+    function clers() {
+        layer.confirm('你确定要清除么？', {
+            btn: ['确定', '取消'] //可以无限个按钮
+        }, function(index, layero){
+            //按钮【按钮一】的回调
+            $.post('{:url("index/index/clear")}',{},function(data){
+                if(data.code==1){
+                    layer.msg(data.msg,{icon:1});
+                    setTimeout(function () {
+                        location.reload();
+                    },1500);
+
+                }else{
+                    layer.alert(data.msg,{icon:2});
+                }
+            });
+
+        }, function(index){
+            //按钮【按钮二】的回调
+        });
+
+
+    }
+</script>

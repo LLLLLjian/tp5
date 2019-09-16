@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+<link rel="stylesheet" href="__STATIC__/css/style.css">
+<style>
+html, body {
+	height: 100%;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-image: url("__STATIC__/image/login_bg.png");
+	background-size: cover;
+}
+</style>
+</head>
+<body>
+	<div class="login-div">
+		<h1>登录</h1>
+		<div class="larry-main layui-layout animated shake larry-delay2" id="larry_login">
+			<div class="user-info">
+				<form action="" method="post" class="layui-form" id="larry_form">
+					<div class="layui-form-item">
+						<input type="text" name="username" required lay-verify="required" aautocomplete="off" class="layui-input larry-input" placeholder="请输入您的用户名" autocomplete="off">
+					</div>
+					<div class="layui-form-item" id="password">
+						<input type="password" name="password" required lay-verify="required|password" aautocomplete="off" class="layui-input larry-input" placeholder="请输入您的登录密码" autocomplete="off">
+					</div>
+					<div class="layui-form-item larry-verfiy-code" id="larry_code">
+						<input type="text" name="code" required lay-verify="required" aautocomplete="off" class="layui-input larry-input" placeholder="输入验证码" autocomplete="off">
+						<div class="code">
+							<div style="width: 270px; height: 55px;">
+								<img src="{:captcha_src()}" onClick="this.src='{:captcha_src()}?'+Math.random();" alt="captcha" style="width: 178px; height: 36px; padding: 1px 0px 0px 2px;" />
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<button class="layui-btn larry-btn" type="button" id="login">立即登录</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/layui/layui.all.js"></script>
+<script src="__STATIC__/js/utils.js"></script>
+<script>
+	layui.use([ 'layer', 'form' ], function() {
+		window.layer = layui.layer;
+		window.form = layui.form;
+		mounted();
+	});
+	function mounted() {
+		$('#login').click(function() {
+			//ajax提交
+			$.ajax({
+				type : "POST",
+				dataType : "json",
+				url : "{:Url('Login/login')}",
+				data : $("#larry_form").serialize(),//newsForm序列化
+				success : function(result) {
+					if (result.code == 0) {
+						window.location.href = "{:Url('Index/index')}";
+					} else {
+						layer.msg(result.msg, {
+							time : 3000
+						});
+					}
+				},
+				error : function() {
+					alert("异常！");
+				}
+			});
+		})
+	}
+</script>

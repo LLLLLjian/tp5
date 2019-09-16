@@ -1,0 +1,57 @@
+CTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+<link rel="stylesheet" href="__STATIC__/css/style.css">
+<title>Llllljian后台</title>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/layui/layui.all.js"></script>
+<script src="__STATIC__/js/utils.js"></script>
+</head>
+<body>
+	<!--上方标题栏-->
+	<div class="parentTop">
+		<a href="{:Url('Index/index')}" class="appName">Llllljian后台</a>
+		<div class="loginNameDiv">
+			<img class="loginIcon" src="__STATIC__/image/icon.png">
+			<div class="loginUserInfo">
+				<span>llllljian</span><br> <span>测试</span>
+			</div>
+		</div>
+	</div>
+	<!--左侧菜单-->
+	<div class="leftMenu">
+		<ul class="layui-nav layui-nav-tree" lay-filter="test">
+			<li class="layui-nav-item"><a href="#/">首页</a></li>
+			<li class="layui-nav-item layui-nav-itemed"><a>默认展开</a>
+				<dl class="layui-nav-child">
+					<dd>
+						<a href="{:Url('Index/testphone')}">选项1</a>
+					</dd>
+					<dd>
+						<a>选项2</a>
+					</dd>
+					<dd>
+						<a>跳转</a>
+					</dd>
+				</dl></li>
+			<li class="layui-nav-item"><a>解决方案</a>
+				<dl class="layui-nav-child">
+					<dd>
+						<a href="{:Url('Login/logout')}">移动模块</a>
+					</dd>
+					<dd>
+						<a href="">后台模版</a>
+					</dd>
+					<dd>
+						<a href="">电商平台</a>
+					</dd>
+				</dl></li>
+			<li class="layui-nav-item"><a href="{:Url('Phonelog/index')}">手机号归属地查询</a></li>
+			<li class="layui-nav-item"><a href="">多图上传</a></li>
+			<li class="layui-nav-item"><a href="">富文本</a></li>
+		</ul>
+	</div>
