@@ -30,7 +30,6 @@ class Index extends Common
         $systemInfo['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
         // 数据统计
         $data["user"] = Db::name("user")->count();
-        $data["auth_role"] = Db::name("auth_role")->count();
 
         //当前日期
         $ymd = date("Y-m-d");

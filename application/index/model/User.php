@@ -16,7 +16,10 @@ class User extends Model
         if (empty($id)) {
             $id = Session::get("id");
         }
-        $userInfo = Db::name("user")->where(array("id" => $id))->find();
+        $userInfo = Db::name("user")
+->alias('u')
+->join('roles r', 'r.id = u.roles_id', 'LEFT')
+->where(array("u.id" => $id))->find();
 
         return $userInfo;
     }
