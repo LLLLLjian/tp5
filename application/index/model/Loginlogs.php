@@ -13,7 +13,6 @@ class Loginlogs extends Model
     // 记录登录日志
     public function addLoginLogs()
     {
-        var_dump(Session::get("id"));exit;
         $inserArr = array();
         $inserArr["user_id"] = Session::get("id");
         $inserArr["ip"] = request()->ip();

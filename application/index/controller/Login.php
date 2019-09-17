@@ -67,7 +67,7 @@ class Login extends Controller
                     ->find();
                 if (empty($rsp)) {
                     $res['code'] = -3;
-                    $res['msg'] = "密码错误{$password}";
+                    $res['msg'] = "密码错误";
                     echo json_encode($res);
                     return;
                 }
@@ -75,7 +75,7 @@ class Login extends Controller
 
             session('id', $rsp['id']);
             session('username', $rsp['username']);
-			$loginLogsModel = new Loginlogs();
+            $loginLogsModel = new Loginlogs();
             $loginLogsModel->addLoginLogs();
 
             echo json_encode($res);
