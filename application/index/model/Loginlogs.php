@@ -19,8 +19,8 @@ class Loginlogs extends Model
         $inserArr["browser_type"] = get_broswer_type();
         $inserArr["browser"] = get_broswer();
         $inserArr["type_os"] = get_os();
-$inserArr["create_time"] = time();
-$inserArr["update_time"] = time();
+        $inserArr["create_time"] = time();
+        $inserArr["update_time"] = time();
         $this->save($inserArr);
 
         $user = new User;

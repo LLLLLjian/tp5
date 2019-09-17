@@ -17,9 +17,12 @@ class User extends Model
             $id = Session::get("id");
         }
         $userInfo = Db::name("user")
-->alias('u')
-->join('roles r', 'r.id = u.roles_id', 'LEFT')
-->where(array("u.id" => $id))->find();
+            // ->alias('u')
+            // ->join('roles r', 'r.id = u.roleslevel', 'LEFT')
+            ->where(array("id" => $id))->find();
+        
+        $roles = new Roles;
+        $userInfo['rolesname'] = $roles->getRolesNameBylevel($userInfo['roleslevel']);
 
         return $userInfo;
     }

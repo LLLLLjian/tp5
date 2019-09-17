@@ -75,7 +75,7 @@ class Login extends Controller
 
             session('id', $rsp['id']);
             session('username', $rsp['username']);
-            session('roles_id', $rsp['roles_id']);
+            session('roleslevel', $rsp['roleslevel']);
 
             $loginLogsModel = new Loginlogs();
             $loginLogsModel->addLoginLogs();

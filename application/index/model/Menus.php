@@ -10,15 +10,15 @@ class Menus extends Model
     protected $table = "menus";
 
     // 通过roles获取当前登录人可以查看的菜单
-    public function getMenusArrByRoles($roleId = 0)
+    public function getMenusArrByRoles($roleslevel = 0)
     {
-        if (empty($roleId)) {
-            $roleId = session("roles_id");
+        if (empty($roleslevel)) {
+            $roleslevel = session("roleslevel");
         }
 
         $menu = $this
             ->where(array("parent_id" => 0, "menu_type" => 1))
-            ->where('roles_id', '&', $roleId)
+            ->where('roleslevel', '&', $roleslevel)
             ->order("menu_sort asc")
             ->select();
 
@@ -30,7 +30,7 @@ class Menus extends Model
 
                 $cmenu = Db::name("auth_menu")
                     ->where(array('parent_id' => $pid, 'type' => 1))
-                    ->where('roles_id', '&', $roleId)
+                    ->where('roleslevel', '&', $roleslevel)
                     ->order("menu_sort asc")
                     ->select();
                 if (!empty($cmenu)) {

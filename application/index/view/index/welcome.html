@@ -24,7 +24,7 @@
 
                         </div>
                         <div class="layui-card-body ">
-                            <blockquote class="layui-elem-quote" >欢迎:<span class="x-red">{$userInfo["roles_id"]}</span>-
+                            <blockquote class="layui-elem-quote" >欢迎:<span class="x-red">{$userInfo["rolesname"]}</span>-
                                 <span class="x-red">{$userInfo['username']}</span>！当前日期:<span class="x-red">{$ymd}</span>
                             </blockquote>
                         </div>
@@ -38,15 +38,19 @@
                                 <li class="layui-col-md2 layui-col-xs6">
                                     <a href="javascript:;" class="x-admin-backlog-body">
                                         <h3>会员数</h3>
-                                        <p>
-                                            <cite>{$data["user"]}</cite></p>
+                                        <p><cite>{$data["user"]}</cite></p>
                                     </a>
                                 </li>
                                 <li class="layui-col-md2 layui-col-xs6">
                                     <a href="javascript:;" class="x-admin-backlog-body">
                                         <h3>关注人数</h3>
-                                        <p>
-                                            <cite>1</cite></p>
+                                        <p><cite>1</cite></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-md2 layui-col-xs6">
+                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                        <h3>电话记录</h3>
+                                        <p><cite>1</cite></p>
                                     </a>
                                 </li>
                             </ul>
