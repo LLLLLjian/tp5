@@ -6,6 +6,7 @@ use think\Controller;
 use think\Request;
 use think\Validate;
 use think\Db;
+use app\index\model\Loginlogs;
 
 class Login extends Controller
 {
@@ -64,29 +65,19 @@ class Login extends Controller
                 $rsp = Db::name('user')->where('username', $username)
                     ->where('password', $password)
                     ->find();
-                $countp = count($rsp);
-                if (!$countp) {
+                if (!empty($rsp)) {
                     $res['code'] = -3;
-                    $res['msg'] = "密码错误";
+                    $res['msg'] = "密码错误{$password}";
                     echo json_encode($res);
                     return;
                 }
             }
-            //记录时间及ip
-            Db::name('user')->where(array('id' => $rsp['id']))->update(['last_login_time' => time(), 'last_login_ip' => request()->ip()]);
-            //登录日志的记录
-            $data["user_id"] = $rsp["id"];
-            $data["ip"] = request()->ip();
-            $data["num"] = 1;
-            $data["browser_type"] = get_broswer_type();
-            $data["browser"] = get_broswer();
-            $data["create_time"] = date('Y-m-d H:i:s', time());
-            $data["type_os"] = get_os();
-            Db::name('user_login')->insert($data);
+
+            $loginLogsModel = new Loginlogs();
+            $loginLogsModel->addLoginLogs();
 
             session('id', $rsp['id']);
             session('username', $rsp['username']);
-            session('role', $rsp['role_id']);
             echo json_encode($res);
             return;
         }

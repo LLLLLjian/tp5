@@ -4,10 +4,22 @@ namespace app\index\model;
 
 use think\Db;
 use think\Model;
+use think\facade\Session;
 
 class User extends Model
 {
     protected $table = "user";
+
+    // 通过id获取用户信息
+    public function getUserInfoByid($id = "")
+    {
+        if (empty($id)) {
+            $id = Session::get("id");
+        }
+        $userInfo = Db::name("user")->where(array("id" => $id))->find();
+
+        return $userInfo;
+    }
 
     //获取角色
     public function getAdminRole()

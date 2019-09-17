@@ -32,12 +32,20 @@ function pswCrypt($psw)
  * 
  * @return [type] [description]
  */
-function getActionUrl()
+function getActionUrl($type = 0)
 {
     $module = strtolower(request()->module());
     $controller = strtolower(request()->controller());
     $action = strtolower(request()->action());
-    return $module . '/' . $controller . '/' . $action;
+    if ($type == 0) {
+        return $module . '/' . $controller . '/' . $action;
+    } else {
+        return array(
+            "module" => $module,
+            "controller" => $controller,
+            "action" => $action
+        );
+    }
 }
 
 /**

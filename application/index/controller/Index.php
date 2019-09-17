@@ -3,6 +3,7 @@
 namespace app\index\controller;
 
 use think\Db;
+use think\facade\Session;
 
 class Index extends Common
 {

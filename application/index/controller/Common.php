@@ -14,71 +14,25 @@ use think\Db;
 use think\Request;
 use think\facade\Session;
 use app\index\model\Authrole;
+use app\index\model\User;
 
 class Common extends Controller
 {
     // 检查是否登录
     public function initialize()
     {
+        $authRoleModel = new Authrole();
+        $userModel = new User();
+
         // 取出seession的值
         $id = Session::get("id");
         $url = getActionUrl(); // 获取当前的操作的url
         if (empty($id)) {
             $this->redirect("index/login/index");
         } else {
-            $userInfo = Db::name("user")->where(array("id" => $id))->find();
+            $userInfo = $userModel->getUserInfoByid();
         }
-        // 取出角色
-        $role = Db::name("auth_role")->where('role_id', $userInfo["role_id"])->field('role_name')->find();
-        // 检查该方法是否添加了权限方法
-        $is_action = Db::name("auth_menu")->where('url', $url)->find();
 
-        // 过滤首页和欢迎页
-        if (empty($is_action) && !in_array($url, config("auth.permission_authlist"))) {
-            if (request()->isPost()) {
-                $this->error('你没有该操作权限');
-            } else {
-                $html = <<<HTML
-                <span style='text-align: center;color: red;margin-left: 50%'>你没有该操作权限!</span>
-HTML;
-                echo $html;
-                exit();
-            }
-        }
-        // 获取当前管理员是否有当前进去的方法的权限
-        $url = getActionUrl();
-        $roles = new Authrole();
-        $auth = $roles->getAuthInfo($userInfo["role_id"]);
-        if ($auth == NULL) {
-            if (request()->isPost()) {
-                $this->error('你没有该操作权限!');
-            } else {
-                $html = <<<HTML
-                <span style='text-align: center;color: red;margin-left: 50%'>你没有该操作权限!</span>
-HTML;
-                echo $html;
-                exit();
-            }
-        }
-        $auth_array = array();
-        foreach ($auth as $key => $value) {
-            $auth_array[] = strtolower($value['url']);
-        }
-        // 过滤首页和欢迎页
-        // var_dump($url);var_dump($auth_array);
-        if (!in_array($url, config("auth.permission_authlist"))) {
-            if (!in_array($url, $auth_array)) {
-                if (request()->isPost()) {
-                    $this->error('你没有该操作权限!');
-                } else {
-                    $html = <<<HTML
-                <span style='text-align: center;color: red;margin-left: 50%'>你没有该操作权限!</span>
-HTML;
-                    echo $html;
-                    exit();
-                }
-            }
-        }
         // 获取当前用户可以访问的菜单
         $menuInfo = $roles->getMenuInfo($userInfo["role_id"]);
         $this->assign('menuInfo', $menuInfo); // 读取当前管理员的所有菜单栏的列表
