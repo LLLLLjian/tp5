@@ -73,11 +73,12 @@ class Login extends Controller
                 }
             }
 
+            session('id', $rsp['id']);
+            session('username', $rsp['username']);
+
             $loginLogsModel = new Loginlogs();
             $loginLogsModel->addLoginLogs();
 
-            session('id', $rsp['id']);
-            session('username', $rsp['username']);
             echo json_encode($res);
             return;
         }
