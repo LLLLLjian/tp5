@@ -84,7 +84,7 @@ class Authmenu extends Controller
     public function del()
     {
         $id = input("param.id");
-        $model = new Authmenu();
+        $model = new \app\index\model\Authmenu();
         $data = $model->del_menu($id);
         writelog("删除菜单成功");
         return json($data);

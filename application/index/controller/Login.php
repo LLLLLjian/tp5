@@ -65,7 +65,7 @@ class Login extends Controller
                 $rsp = Db::name('user')->where('username', $username)
                     ->where('password', $password)
                     ->find();
-                if (!empty($rsp)) {
+                if (empty($rsp)) {
                     $res['code'] = -3;
                     $res['msg'] = "密码错误{$password}";
                     echo json_encode($res);
@@ -75,8 +75,7 @@ class Login extends Controller
 
             session('id', $rsp['id']);
             session('username', $rsp['username']);
-
-            $loginLogsModel = new Loginlogs();
+			$loginLogsModel = new Loginlogs();
             $loginLogsModel->addLoginLogs();
 
             echo json_encode($res);
