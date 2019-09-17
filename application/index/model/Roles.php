@@ -16,12 +16,11 @@ class Roles extends Model
             $roleslevel = session("roleslevel");
         }
 
-        $rolesInfoArr = $this->where(array('is_valid' => 1))
-        ->where('roleslevel', '&', $roleslevel)
+        $rolesInfoArr = $this
+        ->where('roleslevel', 'exp', " & {$roleslevel} > 0")
         ->order("roleslevel asc")
-        ->select();
-
-        $tempStr = "";
+        ->select()->toArray();
+		$tempStr = "";
         if (!empty($rolesInfoArr)) {
             $tempArr = array_column($rolesInfoArr, "rolesname");
 
