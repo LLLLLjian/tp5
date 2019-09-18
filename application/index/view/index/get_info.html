@@ -17,43 +17,35 @@
             <div class="layui-form">
                 <input type="hidden" id="id" value="{$find.id}">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">管理员名称</label>
+                    <label class="layui-form-label">登录名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" id="names" value="{$find.names}" required lay-verify="required"
-                            placeholder="请输入管理员名称" autocomplete="off" class="layui-input">
+                        <input type="text" name="username" id="username" value="{$find.username}" required lay-verify="required"
+                            placeholder="请输入登录名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">邮箱</label>
+                    <label class="layui-form-label">真实姓名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" id="email" value="{$find.email}" required lay-verify="required"
-                            placeholder="请输入管理员邮箱" autocomplete="off" class="layui-input">
+                        <input type="text" name="truename" id="truename" value="{$find.truename}" required lay-verify="required"
+                            placeholder="请输入真实姓名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
+
                 <div class="layui-form-item">
-                    <label class="layui-form-label">电话</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="title" id="phone" value="{$find.phone}" required lay-verify="required"
-                            placeholder="请输入管理员电话" autocomplete="off" class="layui-input">
+                    <label class="layui-form-label">密码框</label>
+                    <div class="layui-input-inline">
+                        <input type="password" id="password" name="password" value="{$find.password}" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
                     </div>
+                    <div class="layui-form-mid layui-word-aux">如果修改密码，请修改，反之则忽略</div>
                 </div>
-                <!--<div class="layui-form-item">
-                <label class="layui-form-label">密码框</label>
-                <div class="layui-input-inline">
-                    <input type="password" id="password" name="password" value="{$find.password}" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">如果修改密码，请修改，反之则忽略</div>
-            </div>-->
                 <div class="layui-form-item">
                     <label class="layui-form-label">管理员头像</label>
-
                     <div class="layui-input-block">
                         <div class="layui-upload">
                             <button type="button" class="layui-btn" id="test1"
-                                data-src="{$find.admin_logo}">上传图片</button>
+                                data-src="{$find.user_log}">上传图片</button>
                             <div class="layui-upload-list">
-                                <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px;"
-                                    src="{$find.admin_logo}">
+                                <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px;" src="{$find.user_log}">
                                 <p id="demoText"></p>
                             </div>
                         </div>
@@ -66,10 +58,10 @@
                     <div class="layui-input-block">
                         <div class="layui-upload">
                             <button type="button" class="layui-btn layui-btn-normal" onclick="qr_code()" id="qr_code"
-                                data-src="{$find.qr_code}">点击生成</button>
+                                data-src="{$find.user_code}">点击生成</button>
                         </div>
                         <img class="layui-upload-img" style="width: 100px;height: 100px;" id="qr_code_img"
-                            src="{$find.qr_code}">
+                            src="{$find.user_code}">
                     </div>
                 </div>
 
@@ -77,9 +69,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">状态</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="status" value="1" title="启用" {if condition="$find.status eq 1 "
-                            }checked{/if}> <input type="radio" name="status" value="2" title="禁用" {if
-                            condition="$find.status eq 2 " }checked{/if}> </div> </div> <div class="layui-form-item">
+                        <input type="radio" name="is_valid" value="1" title="启用" {if condition="$find.is_valid eq 1 "
+                            }checked{/if}> <input type="radio" name="is_valid" value="2" title="禁用" {if
+                            condition="$find.is_valid eq 2 " }checked{/if}> </div> </div> <div class="layui-form-item">
                         <div class="layui-input-block">
                             <button class="layui-btn" lay-submit onclick="add_sumbit()"
                                 lay-filter="formDemo">立即提交</button>
@@ -105,7 +97,7 @@
                 //普通图片上传
                 var uploadInst = upload.render({
                     elem: '#test1'
-                    , url: "{:url('admin/upload/img_save',['type'=>'admin'])}"
+                    , url: "{:url('index/upload/img_save',['type'=>'admin'])}"
                     , accept: 'file'  // 允许上传的文件类型
                     , auto: true // 自动上传
                     , before: function (obj) {
@@ -146,7 +138,7 @@
                 var admin_logo = $("#test1").attr("data-src");
                 var qr_code = $("#qr_code").attr("data-src");
                 $.post(
-                    "{:url('admin/index/get_info')}",
+                    "{:url('index/index/get_info')}",
                     { id: id, names: names, email: email, phone: phone, status: status, admin_logo: admin_logo, qr_code: qr_code },
                     function (data) {
                         console.log(data);
@@ -167,7 +159,7 @@
              */
             function qr_code() {
                 $.post(
-                    "{:url('admin/upload/qr_code')}", { "type": 'admin' },
+                    "{:url('index/upload/qr_code')}", { "type": 'admin' },
                     function (data) {
                         console.log(data);
                         if (data.code == 1) {

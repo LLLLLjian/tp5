@@ -4,10 +4,10 @@ namespace app\index\controller;
 
 use think\Db;
 use think\facade\Session;
+use app\index\model\User;
 
 class Index extends Common
 {
-
     public function index()
     {
         return $this->fetch();
@@ -41,9 +41,9 @@ class Index extends Common
 
     public function get_info()
     {
-        $user_id = Session::get("id");
-        $find = Db::name("user")->where(["id" => $user_id])->find();
-        if (empty($user_id)) {
+        $userModel = new User();
+        $find = $userModel->getUserInfoByid();
+        if (empty($find)) {
             return json(["code" => 0, "msg" => "不存在该用户的"]);
         }
         if (request()->isAjax()) {

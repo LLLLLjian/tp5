@@ -18,7 +18,7 @@ class Menus extends Model
 
         $menu = $this
             ->where(array("parent_id" => 0, "menu_type" => 1))
-            ->where('roleslevel', '&', $roleslevel)
+            ->where('roleslevel', 'exp', " & {$roleslevel} > 0")
             ->order("menu_sort asc")
             ->select();
 
@@ -30,7 +30,7 @@ class Menus extends Model
 
                 $cmenu = Db::name("auth_menu")
                     ->where(array('parent_id' => $pid, 'type' => 1))
-                    ->where('roleslevel', '&', $roleslevel)
+                    ->where('roleslevel', 'exp', " & {$roleslevel} > 0")
                     ->order("menu_sort asc")
                     ->select();
                 if (!empty($cmenu)) {
