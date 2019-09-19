@@ -43,9 +43,9 @@
                     <div class="layui-input-block">
                         <div class="layui-upload">
                             <button type="button" class="layui-btn" id="test1"
-                                data-src="{$find.user_log}">上传图片</button>
+                                data-src="{$find.user_logo}">上传图片</button>
                             <div class="layui-upload-list">
-                                <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px;" src="{$find.user_log}">
+                                <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px;" src="{$find.user_logo}">
                                 <p id="demoText"></p>
                             </div>
                         </div>
@@ -130,16 +130,13 @@
             function add_sumbit() {
                 var id = $("#id").val();
                 //获取值
-                var names = $("#names").val();
-                /*var password=$("#password").val();*/
-                var email = $("#email").val();
-                var phone = $("#phone").val();
+                var username = $("#username").val();
                 var status = $('input[name=status]:checked').val();
-                var admin_logo = $("#test1").attr("data-src");
+                var user_logo = $("#test1").attr("data-src");
                 var qr_code = $("#qr_code").attr("data-src");
                 $.post(
                     "{:url('index/index/get_info')}",
-                    { id: id, names: names, email: email, phone: phone, status: status, admin_logo: admin_logo, qr_code: qr_code },
+                    { id: id, username: username, status: status, user_logo: user_logo, user_code: qr_code },
                     function (data) {
                         console.log(data);
                         if (data.code == 1) {
