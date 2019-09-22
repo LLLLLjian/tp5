@@ -107,6 +107,7 @@
                         });
                     }
                     , done: function (res) {
+						console.log(res);
                         if (res.code == 1) {
                             $('#test1').attr('data-src', res.url);  //成功返回路径存到数据库
                             return layer.msg('上传成功', { icon: 1 });

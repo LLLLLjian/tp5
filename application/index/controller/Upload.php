@@ -4,27 +4,30 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Config;
+use think\facade\Env;
 use think\Loader;
 use think\Db;
 
-class UploadController extends BaseController
+class Upload extends Common
 {
     /*
      * 图片上传公共方法
      */
     public function img_save()
     {
+		$type = input("param.type");
+		$filePath = Env::get('ROOT_PATH')."/public/upload/". $type . "";
         $type = input("param.type");
         $img = request()->file('file');
         // 移动到框架应用根目录/public/uploads/ 目录下
-        $info = $img->move(ROOT_PATH . 'public' . DS . 'upload' . DS . $type . DS . date('Y') . DS . date('m-d'), md5(microtime(true)));
-        if ($info) {
+        $info = $img->move($filePath.md5(microtime(true)));
+		if ($info) {
             // 成功上传后 获取上传信息
-            $imgPath = "/upload/$type/" . date('Y') . '/' . date('m-d') . '/' . $info->getSaveName();
-            return json(["code" => 1, "msg" => "上传成功", "url" => $imgPath]);
+            $imgPath = $filePath . '/' . $info->getSaveName();
+			return json_encode(["code" => 1, "msg" => "上传成功", "url" => $imgPath]);
         } else {
             // 上传失败获取错误信息0
-            return json(["code" => 0, "msg" => $img->getError(), "url" => '']);
+            return json_encode(["code" => 0, "msg" => $img->getError(), "url" => '']);
         }
     }
 

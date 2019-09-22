@@ -9,7 +9,7 @@ return [
 		'index/index/welcome',
         'index/login/index',  //主页
         'index/login/login', //登录
-        'admin/login/loginout', //退出
+        'index/login/loginout', //退出
         'index/upload/img_save',//图片上传
         'index/upload/qr_code',//二维码的生成
         'index/common/clear',  //清除缓存
