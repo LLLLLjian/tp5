@@ -17,9 +17,9 @@ return [
     // 数据库名
     'database'        => 'tentcent_tp',
     // 用户名
-    'username'        => 'root',
+    'username'        => Env::get("USERNAME"),
     // 密码
-    'password'        => 'liujian',
+    'password'        => Env::get("PASSWORD"),
     // 端口
     'hostport'        => '',
     // 连接dsn

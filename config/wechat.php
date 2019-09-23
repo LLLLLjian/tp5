@@ -27,8 +27,8 @@ return [
          */
         'log' => [
             'permission' => 0777,
-            'level' => env('WECHAT_LOG_LEVEL', 'debug'),
-            'file' => env('WECHAT_LOG_FILE', '/tmp/easywechat-dev/easywechat_' . date('Ymd') . '.log'),
+            'level' => Env::get('WECHAT_LOG_LEVEL', 'debug'),
+            'file' => Env::get('WECHAT_LOG_FILE', '/tmp/easywechat-dev/easywechat_' . date('Ymd') . '.log'),
         ],
     ],
 
@@ -36,13 +36,13 @@ return [
     'official_account' => [
         'default' => [
             // AppID
-            'app_id' => env('WECHAT_OFFICIAL_ACCOUNT_APPID', 'wx6aa46abea55484a7'),
+            'app_id' => Env::get('WECHAT_OFFICIAL_ACCOUNT_APPID'),
             // AppSecret
-            'secret' => env('WECHAT_OFFICIAL_ACCOUNT_SECRET', 'c1090ce59a68cd8b9be5c3539b72d29d'),
+            'secret' => Env::get('WECHAT_OFFICIAL_ACCOUNT_SECRET'),
             // Token
-            'token' => env('WECHAT_OFFICIAL_ACCOUNT_TOKEN', 'llllljian'),
+            'token' => Env::get('WECHAT_OFFICIAL_ACCOUNT_TOKEN'),
             // EncodingAESKey
-            'aes_key' => env('WECHAT_OFFICIAL_ACCOUNT_AES_KEY', ''),
+            'aes_key' => Env::get('WECHAT_OFFICIAL_ACCOUNT_AES_KEY'),
             /*
              * OAuth 配置
              *
@@ -51,8 +51,8 @@ return [
              */
             //'oauth' => [
             //    'scopes'   => array_map('trim',
-            //        explode(',', env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES', 'snsapi_userinfo'))),
-            //    'callback' => env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/examples/oauth_callback.php'),
+            //        explode(',', Env::get('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES', 'snsapi_userinfo'))),
+            //    'callback' => Env::get('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/examples/oauth_callback.php'),
             //],
         ],
     ],
@@ -60,32 +60,32 @@ return [
     //第三方开发平台
     //'open_platform'    => [
     //    'default' => [
-    //        'app_id'  => env('WECHAT_OPEN_PLATFORM_APPID', ''),
-    //        'secret'  => env('WECHAT_OPEN_PLATFORM_SECRET', ''),
-    //        'token'   => env('WECHAT_OPEN_PLATFORM_TOKEN', ''),
-    //        'aes_key' => env('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
+    //        'app_id'  => Env::get('WECHAT_OPEN_PLATFORM_APPID', ''),
+    //        'secret'  => Env::get('WECHAT_OPEN_PLATFORM_SECRET', ''),
+    //        'token'   => Env::get('WECHAT_OPEN_PLATFORM_TOKEN', ''),
+    //        'aes_key' => Env::get('WECHAT_OPEN_PLATFORM_AES_KEY', ''),
     //    ],
     //],
 
     //小程序
     //'mini_program'     => [
     //    'default' => [
-    //        'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', ''),
-    //        'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', ''),
-    //        'token'   => env('WECHAT_MINI_PROGRAM_TOKEN', ''),
-    //        'aes_key' => env('WECHAT_MINI_PROGRAM_AES_KEY', ''),
+    //        'app_id'  => Env::get('WECHAT_MINI_PROGRAM_APPID', ''),
+    //        'secret'  => Env::get('WECHAT_MINI_PROGRAM_SECRET', ''),
+    //        'token'   => Env::get('WECHAT_MINI_PROGRAM_TOKEN', ''),
+    //        'aes_key' => Env::get('WECHAT_MINI_PROGRAM_AES_KEY', ''),
     //    ],
     //],
 
     //支付
     //'payment'          => [
     //    'default' => [
-    //        'sandbox'    => env('WECHAT_PAYMENT_SANDBOX', false),
-    //        'app_id'     => env('WECHAT_PAYMENT_APPID', ''),
-    //        'mch_id'     => env('WECHAT_PAYMENT_MCH_ID', 'your-mch-id'),
-    //        'key'        => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
-    //        'cert_path'  => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
-    //        'key_path'   => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
+    //        'sandbox'    => Env::get('WECHAT_PAYMENT_SANDBOX', false),
+    //        'app_id'     => Env::get('WECHAT_PAYMENT_APPID', ''),
+    //        'mch_id'     => Env::get('WECHAT_PAYMENT_MCH_ID', 'your-mch-id'),
+    //        'key'        => Env::get('WECHAT_PAYMENT_KEY', 'key-for-signature'),
+    //        'cert_path'  => Env::get('WECHAT_PAYMENT_CERT_PATH', 'path/to/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
+    //        'key_path'   => Env::get('WECHAT_PAYMENT_KEY_PATH', 'path/to/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
     //        'notify_url' => 'http://example.com/payments/wechat-notify',                           // 默认支付结果通知地址
     //    ],
     //    // ...
@@ -96,7 +96,7 @@ return [
     //    'default' => [
     //        'corp_id'  => 'xxxxxxxxxxxxxxxxx',
     //        'agent_id' => 100020,
-    //        'secret'   => env('WECHAT_WORK_AGENT_CONTACTS_SECRET', ''),
+    //        'secret'   => Env::get('WECHAT_WORK_AGENT_CONTACTS_SECRET', ''),
     //        //...
     //    ],
     //],

@@ -18,9 +18,8 @@ class Upload extends Common
         $type = input("param.type");
         $img = request()->file('file');
 
-		$basePath = "/public/upload/" . $type . "/" . date('Y') . "/" . date('m-d');
-        $filePath = Env::get('ROOT_PATH') . $basePath;
-		$showPath = Env::get('MY_HOME'). $basePath;
+        $filePath = getFilePath($type, 1);
+        $showPath = getFilePath($type, 2);
 
         // 移动到框架应用根目录/public/uploads/ 目录下
         $info = $img->move($filePath, md5(microtime(true)));
@@ -39,7 +38,8 @@ class Upload extends Common
      */
     public function qr_code()
     {
-		var_dump(Env::get());exit;
+        var_dump(Env::get());
+        exit;
         $type = input("param.type");
         //二维码URL参数
         $text = session("id");

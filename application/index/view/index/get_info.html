@@ -97,7 +97,7 @@
                 //普通图片上传
                 var uploadInst = upload.render({
                     elem: '#test1'
-                    , url: "{:url('index/upload/img_save',['type'=>'admin'])}"
+                    , url: "{:url('index/upload/img_save',['type'=>'user_logo'])}"
                     , accept: 'file'  // 允许上传的文件类型
                     , auto: true // 自动上传
                     , before: function (obj) {
@@ -157,7 +157,7 @@
              */
             function qr_code() {
                 $.post(
-                    "{:url('index/upload/qr_code')}", { "type": 'admin' },
+                    "{:url('index/upload/qr_code')}", { "type": 'user_code' },
                     function (data) {
                         console.log(data);
                         if (data.code == 1) {

@@ -234,15 +234,16 @@ function get_os()
 function qc_code($text, $type)
 {
     //二维码图片保存路径
-    $pathname = ROOT_PATH . 'public' . DS . 'upload' . DS . 'qrcode' . DS . $type;
+    $pathname = getFilePath($type, 1);
     if (!is_dir($pathname)) { //若目录不存在则创建之
         mkdir($pathname, 0777, true);
     }
     vendor("phpqrcode.phpqrcode");
 
     //二维码图片保存路径(若不生成文件则设置为false)
-    $filename = $pathname . "/qrcode_" . time() . ".png";
-    //    $filename ="/upload/qrcode/$type/qrcode_" . time() . ".png";
+    $baseFileName = "/qrcode_" . time() . ".png";;
+    $filename = $pathname . $baseFileName;
+
     //二维码容错率，默认L
     $level = "L";
     //二维码图片每个黑点的像素，默认4
@@ -259,5 +260,19 @@ function qc_code($text, $type)
     $QR = imagecreatefromstring(file_get_contents($filename));
 
     imagepng($QR, $filename);
-    return $filename;
+    return getFilePath($type, 2) . $baseFileName;
+}
+
+/**
+ * 生成文件上传路径或展示路径
+ */
+function getFilePath($file, $type = 1)
+{
+    $basePath = "/public/upload/" . $file . "/" . date('Y') . "/" . date('m-d');
+
+    if ($type == 1) {
+        return Env::get('ROOT_PATH') . $basePath;
+    } else {
+        return Env::get('MY_HOME') . $basePath;
+    }
 }
