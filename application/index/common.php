@@ -238,7 +238,6 @@ function qc_code($text, $type)
     if (!is_dir($pathname)) { //若目录不存在则创建之
         mkdir($pathname, 0777, true);
     }
-    vendor("phpqrcode.phpqrcode");
 
     //二维码图片保存路径(若不生成文件则设置为false)
     $baseFileName = "/qrcode_" . time() . ".png";;
@@ -256,8 +255,29 @@ function qc_code($text, $type)
     //生成二维码图片
     \PHPQRCode\QRcode::png($text, $filename, $level, $size, $padding, $saveandprint);
 
-    //二维码logo
-    $QR = imagecreatefromstring(file_get_contents($filename));
+    //准备好的logo图片
+    $logo = Env::get('ROOT_PATH') . '/public/logo_1.jpg';
+    if (file_exists($logo)) {
+        //二维码
+        $QR = imagecreatefromstring(file_get_contents($filename));
+        //logo
+        $logo = imagecreatefromstring(file_get_contents($logo));
+
+        $QR_width = imagesx($QR);      //二维码图片宽度
+        $QR_height = imagesy($QR);     //二维码图片高度
+        $logo_width = imagesx($logo);    //logo图片宽度
+        $logo_height = imagesy($logo);   //logo图片高度
+        $logo_qr_width = $QR_width / 4;   //组合之后logo的宽度(占二维码的1/5)
+        $scale = $logo_width / $logo_qr_width;  //logo的宽度缩放比(本身宽度/组合后的宽度)
+        $logo_qr_height = $logo_height / $scale; //组合之后logo的高度
+        $from_width = ($QR_width - $logo_qr_width) / 2;  //组合之后logo左上角所在坐标点
+
+        //重新组合图片并调整大小
+        //imagecopyresampled() 将一幅图像(源图象)中的一块正方形区域拷贝到另一个图像中
+        imagecopyresampled($QR, $logo, $from_width, $from_width, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+    }
+
+
 
     imagepng($QR, $filename);
     return getFilePath($type, 2) . $baseFileName;
