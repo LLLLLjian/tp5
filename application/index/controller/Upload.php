@@ -15,16 +15,17 @@ class Upload extends Common
      */
     public function img_save()
     {
-		$type = input("param.type");
-		$filePath = Env::get('ROOT_PATH')."/public/upload/". $type . "";
         $type = input("param.type");
         $img = request()->file('file');
+
+        $filePath = Env::get('ROOT_PATH') . "/public/upload/" . $type . "/" . date('Y') . "/" . date('m-d');
+
         // 移动到框架应用根目录/public/uploads/ 目录下
-        $info = $img->move($filePath.md5(microtime(true)));
-		if ($info) {
+        $info = $img->move($filePath, md5(microtime(true)));
+        if ($info) {
             // 成功上传后 获取上传信息
-            $imgPath = $filePath . '/' . $info->getSaveName();
-			return json_encode(["code" => 1, "msg" => "上传成功", "url" => $imgPath]);
+            $imgPath = trim($filePath, "/var/nginx/html") . '/' . $info->getSaveName();
+            return json_encode(["code" => 1, "msg" => "上传成功", "url" => $imgPath]);
         } else {
             // 上传失败获取错误信息0
             return json_encode(["code" => 0, "msg" => $img->getError(), "url" => '']);
