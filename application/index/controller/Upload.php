@@ -18,13 +18,15 @@ class Upload extends Common
         $type = input("param.type");
         $img = request()->file('file');
 
-        $filePath = Env::get('ROOT_PATH') . "/public/upload/" . $type . "/" . date('Y') . "/" . date('m-d');
+		$basePath = "/public/upload/" . $type . "/" . date('Y') . "/" . date('m-d');
+        $filePath = Env::get('ROOT_PATH') . $basePath;
+		$showPath = Env::get('MY_HOME'). $basePath;
 
         // 移动到框架应用根目录/public/uploads/ 目录下
         $info = $img->move($filePath, md5(microtime(true)));
         if ($info) {
             // 成功上传后 获取上传信息
-            $imgPath = trim($filePath, "/var/nginx/html") . '/' . $info->getSaveName();
+            $imgPath = $showPath . '/' . $info->getSaveName();
             return json_encode(["code" => 1, "msg" => "上传成功", "url" => $imgPath]);
         } else {
             // 上传失败获取错误信息0
@@ -37,6 +39,7 @@ class Upload extends Common
      */
     public function qr_code()
     {
+		var_dump(Env::get());exit;
         $type = input("param.type");
         //二维码URL参数
         $text = session("id");
