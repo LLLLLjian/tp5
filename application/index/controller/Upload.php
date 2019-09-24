@@ -45,7 +45,7 @@ class Upload extends Common
 		$filenames_string = str_replace('\\', '/', $filenames);
         $file_name = substr($filenames_string, strripos($filenames_string, "/upload") + 1);
         try {
-            return json(["code" => 1, "msg" => "生成成功", "url" => '/' . $file_name]);
+            return json(["code" => 1, "msg" => "生成成功", "url" => $filenames]);
         } catch (\Exception $e) {
             return json(["code" => 1, "msg" => "生成失败", "url" => '']);
         }
