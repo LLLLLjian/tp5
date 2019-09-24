@@ -38,13 +38,11 @@ class Upload extends Common
      */
     public function qr_code()
     {
-        var_dump(Env::get());
-        exit;
         $type = input("param.type");
         //二维码URL参数
         $text = session("id");
         $filenames = qc_code($text, $type);
-        $filenames_string = str_replace('\\', '/', $filenames);
+		$filenames_string = str_replace('\\', '/', $filenames);
         $file_name = substr($filenames_string, strripos($filenames_string, "/upload") + 1);
         try {
             return json(["code" => 1, "msg" => "生成成功", "url" => '/' . $file_name]);
