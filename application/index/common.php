@@ -244,7 +244,8 @@ function qc_code($text, $type)
     $filename = $pathname . $baseFileName;
 
     //二维码容错率，默认L
-    $level = "L";
+    //$level = "L";
+    $level = "H";
     //二维码图片每个黑点的像素，默认4
     $size = '10';
     //二维码边框的间距，默认2
