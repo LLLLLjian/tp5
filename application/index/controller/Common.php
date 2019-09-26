@@ -44,6 +44,9 @@ class Common extends Controller
             }
         }
 
+        $visitLogsModel = new Visitlogs();
+        $visitLogsModel->addVisitLogs();
+
         // 获取当前用户可以访问的菜单
         $menuInfo = $menusModel->getMenusArrByRoles();
         $this->assign('menuInfo', $menuInfo); // 读取当前管理员的所有菜单栏的列表
