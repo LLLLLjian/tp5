@@ -5,10 +5,9 @@ namespace app\index\model;
 use think\Model;
 use think\Request;
 use think\facade\Session;
+
 use think\Db;
-use think\Cache;
-use think\Config;
-use think\Debug;
+use think\Container;
 use think\Response;
 
 class Visitlogs extends Model
@@ -36,10 +35,10 @@ class Visitlogs extends Model
         $accept = $request->header('accept');
 
         // 获取基本信息
-        $runtime = number_format(microtime(true) - THINK_START_TIME, 10, '.', '');
+        $runtime = number_format(microtime(true) - Container::get('app')->getBeginTime(), 10, '.', '');
         $reqs = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';
-        $mem = number_format((memory_get_usage() - THINK_START_MEM) / 1024, 2);
-        
+        $mem = number_format((memory_get_usage() - Container::get('app')->getBeginMem()) / 1024, 2);
+
         $inserArr = array();
         $inserArr["user_id"] = Session::get("id");
         $inserArr["ip"] = request()->ip();
@@ -51,7 +50,7 @@ class Visitlogs extends Model
         $inserArr["throughput_rate"] = $reqs;
         $inserArr["memory_consumption"] = $mem;
         $inserArr["query_info"] = Db::$queryTimes . ' queries ' . Db::$executeTimes . ' writes ';
-        $inserArr["cache_info"] = Cache::$readTimes . ' reads,' . Cache::$writeTimes . ' writes';
+        $inserArr["cache_info"] = Container::get('cache')->getReadTimes() . ' reads,' . Container::get('cache')->getWriteTimes() . ' writes';
         $inserArr["file_loading"] = count(get_included_files());
         $inserArr["config_loading"] = count(Config::get());
         $this->save($inserArr);
