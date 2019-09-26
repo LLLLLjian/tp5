@@ -15,6 +15,7 @@ use think\Request;
 use think\facade\Session;
 use app\index\model\Menus;
 use app\index\model\User;
+use app\index\model\Visitlogs;
 
 class Common extends Controller
 {
