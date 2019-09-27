@@ -29,13 +29,38 @@ class Index extends Common
         //当前的IP
         $systemInfo['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
         // 数据统计
-        $data["user"] = Db::name("user")->count();
+        $sysRes = array();
+        $sysRes[] = array(
+            'showName' => '用户',
+            'showNum' => Db::name("user")->count()
+        );
+        $sysRes[] = array(
+            'showName' => '访问日志',
+            'showNum' => Db::name("visit_logs")->count()
+        );
+        $sysRes[] = array(
+            'showName' => '登录日志',
+            'showNum' => Db::name("login_logs")->count()
+        );
+        $sysRes[] = array(
+            'showName' => '文件日志',
+            'showNum' => Db::name("file_logs")->count()
+        );
+        $sysRes[] = array(
+            'showName' => '手机号日志',
+            'showNum' => Db::name("phone_log")->count()
+        );
+        $sysRes[] = array(
+            'showName' => '地区日志',
+            'showNum' => Db::name("region_log")->count()
+        );
+        $this->assign("sysRes", $sysRes);
+        
 
         //当前日期
         $ymd = date("Y-m-d");
         $this->assign("ymd", $ymd);
         $this->assign("systemInfo", $systemInfo);
-        $this->assign("data", $data);
         return $this->fetch('welcome');
     }
 

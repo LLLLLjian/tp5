@@ -35,24 +35,14 @@
                         <div class="layui-card-header">数据统计</div>
                         <div class="layui-card-body ">
                             <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                                {volist name="sysRes" id="sysRow"}
                                 <li class="layui-col-md2 layui-col-xs6">
                                     <a href="javascript:;" class="x-admin-backlog-body">
-                                        <h3>会员数</h3>
-                                        <p><cite>{$data["user"]}</cite></p>
+                                        <h3>{$sysRow.["showName"]}</h3>
+                                        <p><cite>{$data["showNum"]}</cite></p>
                                     </a>
                                 </li>
-                                <li class="layui-col-md2 layui-col-xs6">
-                                    <a href="javascript:;" class="x-admin-backlog-body">
-                                        <h3>关注人数</h3>
-                                        <p><cite>1</cite></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-md2 layui-col-xs6">
-                                    <a href="javascript:;" class="x-admin-backlog-body">
-                                        <h3>电话记录</h3>
-                                        <p><cite>1</cite></p>
-                                    </a>
-                                </li>
+                                {/volist}
                             </ul>
                         </div>
                     </div>
