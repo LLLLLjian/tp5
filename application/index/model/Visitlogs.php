@@ -7,6 +7,7 @@ use think\Request;
 use think\facade\Session;
 
 use think\Db;
+use think\Config;
 use think\Container;
 use think\Response;
 
@@ -52,7 +53,7 @@ class Visitlogs extends Model
         $inserArr["query_info"] = Db::$queryTimes . ' queries ' . Db::$executeTimes . ' writes ';
         $inserArr["cache_info"] = Container::get('cache')->getReadTimes() . ' reads,' . Container::get('cache')->getWriteTimes() . ' writes';
         $inserArr["file_loading"] = count(get_included_files());
-        $inserArr["config_loading"] = count(Config::get());
+        $inserArr["config_loading"] = count(config());
         $this->save($inserArr);
     }
 }
