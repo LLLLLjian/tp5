@@ -34,17 +34,24 @@ class Common extends Controller
             $userInfo = $userModel->getUserInfoByid();
         }
 
-        // 获取当前的操作的url
-        $url = getActionUrl();
-        // 过滤首页和欢迎页
-        if (!in_array($url, config("auth.permission_authlist"))) {
-            if (request()->isPost()) {
-                $this->error('你没有该操作权限');
-            } else {
-                exit("你没有权限操作");
+        $roleslevel = Session::get("roleslevel");
+
+        if (($roleslevel & 1) > 0) {
+
+        } else {
+            // 获取当前的操作的url
+            $url = getActionUrl();
+            // 过滤首页和欢迎页
+            if (!in_array($url, config("auth.permission_authlist"))) {
+                if (request()->isPost()) {
+                    $this->error('你没有该操作权限');
+                } else {
+                    exit("你没有权限操作");
+                }
             }
         }
-
+        
+        // 记录日志
         $visitLogsModel = new Visitlogs();
         $visitLogsModel->addVisitLogs();
 

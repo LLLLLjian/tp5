@@ -7,6 +7,7 @@ use think\Config;
 use think\facade\Env;
 use think\Loader;
 use think\Db;
+use app\index\model\Filelogs;
 
 class Upload extends Common
 {
@@ -26,6 +27,11 @@ class Upload extends Common
         if ($info) {
             // 成功上传后 获取上传信息
             $imgPath = $showPath . '/' . $info->getSaveName();
+
+            // 记录日志
+            $fileLogsModel = new Filelogs();
+            $fileLogsModel->addFileLogs($imgPath, $type);
+
             return json_encode(["code" => 1, "msg" => "上传成功", "url" => $imgPath]);
         } else {
             // 上传失败获取错误信息0
@@ -45,6 +51,9 @@ class Upload extends Common
 		$filenames_string = str_replace('\\', '/', $filenames);
         $file_name = substr($filenames_string, strripos($filenames_string, "/upload") + 1);
         try {
+            // 记录日志
+            $fileLogsModel = new Filelogs();
+            $fileLogsModel->addFileLogs($filenames, $type);
             return json(["code" => 1, "msg" => "生成成功", "url" => $filenames]);
         } catch (\Exception $e) {
             return json(["code" => 1, "msg" => "生成失败", "url" => '']);

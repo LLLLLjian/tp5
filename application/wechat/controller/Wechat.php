@@ -1,12 +1,4 @@
 <?php
-
-/**
- * File Name: Wechat.php
- * Author: llllljian
- * mail: 18634678077@163.com
- * Created Time: Sun 30 Jun 2019 03:35:47 PM CST
- **/
-
 namespace app\wechat\controller;
 
 use think\Controller;
@@ -27,13 +19,13 @@ class Wechat extends Controller
                 return "你终于关注我了呀！";
             }
             $message['_id'] = Db::connect("db_mongo")->findAndModify($this->table_name);
-            Db::connect("db_mongo")->name($this->table_name)
-                ->insert($message);
-			$wechatLogsModel = new Wechatlogs();
-        	$wechatLogsModel->addWechatLogs($message);
+            return $message['_id'];
+            Db::connect("db_mongo")->name($this->table_name)->insert($message);
+            $wechatLogsModel = new Wechatlogs();
+            $wechatLogsModel->addWechatLogs($message);
             if (preg_match("/^1[3-8]{1}\d{9}$/", $message['Content'])) {
                 $res = array();
-                $res = $this->getPhoneInfo($message['Content'], 2);
+                $res = $this->getPhoneInfo($message['Content'], 2, 1);
                 return $res;
             }
             return "你说的消息我接收记录到了";
@@ -80,7 +72,7 @@ class Wechat extends Controller
     }
 
     // 处理手机号相关信息
-    protected function getPhoneInfo($mobile, $sqlType = 1)
+    protected function getPhoneInfo($mobile, $sqlType = 1, $num = 1)
     {
         $res = array();
         if ($sqlType == 2) {
@@ -89,6 +81,11 @@ class Wechat extends Controller
                 ->find();
         } else {
             $res = "";
+        }
+
+        // 防止出现死循环, 该手机号不在三方类库中
+        if ($num >= 2) {
+            return $res;
         }
 
         if (!empty($res)) {
@@ -101,7 +98,7 @@ class Wechat extends Controller
             $res = $resStr;
         } else {
             exec("/usr/bin/python3.5 /var/nginx/html/tp5/python/mongoPythonForPhone.py {$mobile} 2>&1");
-            return $this->getPhoneInfo($mobile, 2);
+            return $this->getPhoneInfo($mobile, 2, $num+1);
         }
         return $res;
     }
