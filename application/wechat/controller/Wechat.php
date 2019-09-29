@@ -19,7 +19,6 @@ class Wechat extends Controller
                 return "你终于关注我了呀！";
             }
             $message['_id'] = Db::connect("db_mongo")->findAndModify($this->table_name);
-            return $message['_id'];
             Db::connect("db_mongo")->name($this->table_name)->insert($message);
             $wechatLogsModel = new Wechatlogs();
             $wechatLogsModel->addWechatLogs($message);
