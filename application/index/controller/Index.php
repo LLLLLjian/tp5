@@ -43,8 +43,8 @@ class Index extends Common
             'showNum' => Db::name("login_logs")->count()
         );
         $sysRes[] = array(
-            'showName' => '文件日志',
-            'showNum' => Db::name("file_logs")->count()
+            'showName' => '微信日志',
+            'showNum' => Db::name("wechat_logs")->count()
         );
         $sysRes[] = array(
             'showName' => '手机号日志',

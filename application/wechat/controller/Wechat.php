@@ -11,6 +11,7 @@ namespace app\wechat\controller;
 
 use think\Controller;
 use think\Db;
+use app\index\model\Wechatlogs;
 
 class Wechat extends Controller
 {
@@ -28,6 +29,8 @@ class Wechat extends Controller
             $message['_id'] = Db::connect("db_mongo")->findAndModify($this->table_name);
             Db::connect("db_mongo")->name($this->table_name)
                 ->insert($message);
+			$wechatLogsModel = new Wechatlogs();
+        	$wechatLogsModel->addWechatLogs($message);
             if (preg_match("/^1[3-8]{1}\d{9}$/", $message['Content'])) {
                 $res = array();
                 $res = $this->getPhoneInfo($message['Content'], 2);
