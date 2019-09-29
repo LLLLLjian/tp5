@@ -1,4 +1,5 @@
 <?php
+
 namespace app\wechat\controller;
 
 use think\Controller;
@@ -15,19 +16,50 @@ class Wechat extends Controller
         // 先初始化微信
         $app = app('wechat.official_account');
         $app->server->push(function ($message) {
-            if ($message['MsgType'] == "event" && $message['Event'] == 'subscribe') {
-                return "你终于关注我了呀！";
-            }
             $message['_id'] = Db::connect("db_mongo")->findAndModify($this->table_name);
             Db::connect("db_mongo")->name($this->table_name)->insert($message);
             $wechatLogsModel = new Wechatlogs();
             $wechatLogsModel->addWechatLogs($message);
-            if (preg_match("/^1[3-8]{1}\d{9}$/", $message['Content'])) {
-                $res = array();
-                $res = $this->getPhoneInfo($message['Content'], 2, 1);
-                return $res;
+
+            switch ($message['MsgType']) {
+                case 'event':
+                    if ($message['Event'] == 'subscribe') {
+                        return "你终于关注我了呀！";
+                    } else {
+                        return '收到事件消息';
+                    }
+                    break;
+                case 'text':
+                    if (is_numeric($message['Content']) && preg_match("/^1[3-8]{1}\d{9}$/", $message['Content'])) {
+                        $res = "";
+                        $res = $this->getPhoneInfo($message['Content'], 2, 1);
+                        return $res;
+                    } else {
+                        return '收到文字消息';
+                    }
+                    break;
+                case 'image':
+                    return '收到图片消息';
+                    break;
+                case 'voice':
+                    return '收到语音消息';
+                    break;
+                case 'video':
+                    return '收到视频消息';
+                    break;
+                case 'location':
+                    return '收到坐标消息';
+                    break;
+                case 'link':
+                    return '收到链接消息';
+                    break;
+                case 'file':
+                    return '收到文件消息';
+                    break;
+                default:
+                    return '你说的消息我接收记录到了';
+                    break;
             }
-            return "你说的消息我接收记录到了";
         });
 
         $app->server->serve()->send();
@@ -79,7 +111,9 @@ class Wechat extends Controller
                 ->where("mobile", $mobile)
                 ->find();
         } else {
-            $res = "";
+            $res = Db::name("phone_log")
+                ->where("mobile", $mobile)
+                ->find();
         }
 
         // 防止出现死循环, 该手机号不在三方类库中
@@ -97,7 +131,7 @@ class Wechat extends Controller
             $res = $resStr;
         } else {
             exec("/usr/bin/python3.5 /var/nginx/html/tp5/python/mongoPythonForPhone.py {$mobile} 2>&1");
-            return $this->getPhoneInfo($mobile, 2, $num+1);
+            return $this->getPhoneInfo($mobile, 2, $num + 1);
         }
         return $res;
     }

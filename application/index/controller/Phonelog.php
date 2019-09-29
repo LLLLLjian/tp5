@@ -38,6 +38,7 @@ class Phonelog extends Controller
     public function save(Request $request)
     {
         $mobile = input('post.mobile');
+
         exec("/usr/bin/python3.5 /var/nginx/html/tp5/python/mongoPythonForPhone.py {$mobile} 2>&1");
         echo json_encode(array('code' => 0, 'msg' => '成功'));
     }
