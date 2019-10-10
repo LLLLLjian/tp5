@@ -30,6 +30,7 @@ class Wechat extends Controller
                     }
                     break;
                 case 'text':
+                    $message['Content'] = trim($message['Content']);
                     if (is_numeric($message['Content']) && preg_match("/^1[3-8]{1}\d{9}$/", $message['Content'])) {
                         $res = "";
                         $res = $this->getPhoneInfo($message['Content'], 2, 1);

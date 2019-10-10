@@ -13,6 +13,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\facade\Session;
+use think\facade\Env;
 use app\index\model\Menus;
 use app\index\model\User;
 use app\index\model\Visitlogs;
@@ -70,7 +71,9 @@ class Common extends Controller
 
     public function clear()
     {
-        if (delete_dir_file(CACHE_PATH) || delete_dir_file(TEMP_PATH)) {
+        $cachePath = Env::get('runtime_path') . 'cache/';
+        $tempPath = Env::get('runtime_path'). 'temp/';
+        if (delete_dir_file($cachePath) || delete_dir_file($tempPath)) {
             return json(["code" => 1, "msg" => "清除缓存成功"]);
         } else {
             return json(["code" => 0, "msg" => "清除缓存失败"]);

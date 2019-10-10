@@ -30,30 +30,15 @@ class Index extends Common
         $systemInfo['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
         // 数据统计
         $sysRes = array();
-        $sysRes[] = array(
-            'showName' => '用户',
-            'showNum' => Db::name("user")->count()
-        );
-        $sysRes[] = array(
-            'showName' => '访问日志',
-            'showNum' => Db::name("visit_logs")->count()
-        );
-        $sysRes[] = array(
-            'showName' => '登录日志',
-            'showNum' => Db::name("login_logs")->count()
-        );
-        $sysRes[] = array(
-            'showName' => '微信日志',
-            'showNum' => Db::name("wechat_logs")->count()
-        );
-        $sysRes[] = array(
-            'showName' => '手机号日志',
-            'showNum' => Db::name("phone_log")->count()
-        );
-        $sysRes[] = array(
-            'showName' => '地区日志',
-            'showNum' => Db::name("region_log")->count()
-        );
+        $tempRes = Db::query("SHOW TABLES");
+        if (!empty($tempRes)) {
+            foreach ($tempRes AS $key=>$value) {
+                $sysRes[$key] = array(
+                    'showName' => $value,
+                    'showNum' => Db::name($value)->count()
+                );
+            }
+        }
         $this->assign("sysRes", $sysRes);
         
 
