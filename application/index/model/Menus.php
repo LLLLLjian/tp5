@@ -29,7 +29,7 @@ class Menus extends Model
                 $menusArr[$key] = $value;
 
                 $cmenu = Db::name("menus")
-                    ->where(array('parent_id' => $pid, 'type' => 1))
+                    ->where(array('parent_id' => $pid, 'menu_type' => 2))
                     ->where('roleslevel', 'exp', " & {$roleslevel} > 0")
                     ->order("menu_sort asc")
                     ->select();

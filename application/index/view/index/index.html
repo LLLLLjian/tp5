@@ -48,16 +48,16 @@
                     {volist name="menuInfo" id="vo"}
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="{$vo.name}"> <i class=" fa {$vo.ico} fa-fw"></i></i>
-                            <cite>{$vo.name}</cite>
+                            <i class="iconfont left-nav-li" lay-tips="{$vo.menu_name}"> <i class=" fa {$vo.menu_ico} fa-fw"></i></i>
+                            <cite>{$vo.menu_name}</cite>
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             {if condition="!empty($vo['cmenu']) eq true"}
                             {volist name='vo.cmenu' id='vv'}
                             <li>
-                                <a onclick="xadmin.add_tab('{$vv.name}','{:url($vv.url)}')">
+                                <a onclick="xadmin.add_tab('{$vv.menu_name}','{:url($vv.menu_url)}')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>{$vv.name}</cite></a>
+                                    <cite>{$vv.menu_name}</cite></a>
                             </li>
                             {/volist}
                             {/if}

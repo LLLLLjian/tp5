@@ -78,7 +78,7 @@
     //搜索
     function ser_on(){
         var ser_row = $("#ser_row").val();
-        var urls = '{:url("admin/ads/index")}'+'?keyword='+ser_row;
+        var urls = '{:url("index/phonelog/list")}'+'?keyword='+ser_row;
         TB.reload({
             url: urls
             ,cols: [[ //表头
