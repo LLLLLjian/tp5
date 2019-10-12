@@ -28,7 +28,7 @@ class Menus extends Model
                 $pid = $value['id'];
                 $menusArr[$key] = $value;
 
-                $cmenu = Db::name("auth_menu")
+                $cmenu = Db::name("menus")
                     ->where(array('parent_id' => $pid, 'type' => 1))
                     ->where('roleslevel', 'exp', " & {$roleslevel} > 0")
                     ->order("menu_sort asc")
