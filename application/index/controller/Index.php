@@ -34,9 +34,9 @@ class Index extends Common
         if (!empty($tempRes)) {
             foreach ($tempRes AS $key=>$value) {
                 $sysRes[$key] = array(
-                    'showName' => $value,
-                    'showUrl' => $value,
-                    'showNum' => Db::name($value)->count()
+                    'showName' => $value['Tables_in_tentcent_tp'],
+                    'showUrl' => $value['Tables_in_tentcent_tp'],
+                    'showNum' => Db::name($value['Tables_in_tentcent_tp'])->count()
                 );
             }
         }
