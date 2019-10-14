@@ -25,9 +25,9 @@
                                     <div class="layui-input-inline">
                                         <select name="phone_type" id="phone_type" lay-verify="required" lay-search>
                                             <option value="0">=请选择=</option>
-                                            <option value="1">移动</option>
-                                            <option value="2">联通</option>
-                                            <option value="3">电信</option>
+                                            <option value="移动">移动</option>
+                                            <option value="联通">联通</option>
+                                            <option value="电信">电信</option>
                                         </select>
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@
                     { field: 'zip_code', width: 80, title: '邮编' },
                     { field: 'strTime', width: 160, title: '创建时间', sort: true },
                     { field: 'now', width: 160, title: '更新时间', sort: true, templet: function (d) { return util.toDateString(d.now * 1000); } },
-                    { fixed: 'right', width: 200, title: '操作', align: 'center', toolbar: '#barDemo' }
+                    { fixed: 'right', width: 200, title: '操作', align: 'center', toolbar: '#barDemo', templet: '<div><a title="查看" href="javascript:;"><i class="layui-icon">&#xe642;</i></a></div>' }
                 ]]
             });
         });
@@ -163,7 +163,7 @@
                     { field: 'zip_code', width: 80, title: '邮编' },
                     { field: 'strTime', width: 160, title: '创建时间', sort: true },
                     { field: 'now', width: 160, title: '更新时间', sort: true, templet: function (d) { return util.toDateString(d.now * 1000); } },
-                    { fixed: 'right', width: 200, title: '操作', align: 'center', toolbar: '#barDemo' }
+                    { fixed: 'right', width: 200, title: '操作', align: 'center', toolbar: '#barDemo', templet: '<div><a title="查看" href="javascript:;"><i class="layui-icon">&#xe642;</i></a></div>'}
                 ]]
             });
         }
