@@ -92,7 +92,6 @@ class Phonelog extends Controller
 
     public function list()
     {
-        var_dump(input('get'));
         $limit = input('get.limit');
         $skip = (input('get.page', 1) - 1) * $limit;
         $res = Db::connect("db_mongo")->name("phone_log")
