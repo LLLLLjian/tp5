@@ -18,7 +18,7 @@
                 <div class="layui-colla-item">
                     <h2 class="layui-colla-title">条件筛选<i class="layui-icon layui-colla-icon"></i></h2>
                     <div class="layui-colla-content layui-show">
-                        <form class="layui-form" action="">
+                        <form class="layui-form  layui-form-pane" action="">
                             <div class="layui-form-item">
                                 <div class="layui-inline">
                                     <label class="layui-form-label">运营商</label>
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
 
-                            <div class="layui-form-item" id="x-city">
+                            <div class="layui-form-item x-city" id="x-city">
                                 <label class="layui-form-label">手机归属地</label>
                                 <div class="layui-input-inline">
                                     <select name="province" lay-filter="province">
@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="layui-form-item">
-                                <input class="layui-input" placeholder="录入日期" name="start" id="start">
+                                <input class="layui-input" placeholder="录入日期" name="entry_date" id="entry_date">
                             </div>
 
                             <div class="layui-form-item">
@@ -89,7 +89,7 @@
         layui.config({
             base: '__STATIC1__/xadmin/' //静态资源所在路径
         });
-        layui.use(['laydate', 'form', 'util', 'code'， 'element'], function () {
+        layui.use(['laydate', 'form', 'util', 'code', 'element'], function () {
             var laydate = layui.laydate;
             var table = layui.table;
             var form = layui.form;
@@ -98,13 +98,20 @@
 
             //执行一个laydate实例
             laydate.render({
-                elem: '#start' //指定元素
+                elem: '#entry_date' //指定元素
             });
+        });
+
+		layui.use(['form','code'], function(){
+            form = layui.form;
 
             layui.code();
 
             $('#x-city').xcity();
-        });
+            
+            $('#end').xcity('广东','广州市','东山区');
+
+          });
 
         layui.use('table', function () {
             var table = layui.table;
