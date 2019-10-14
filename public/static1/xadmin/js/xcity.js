@@ -12,7 +12,7 @@
 
     this.showP  = function(provinceList) {
 
-        this.p.html('');
+        this.p.html('<option selected value=0>请选择省</option>');
 
         is_pName = false;
         
@@ -34,7 +34,7 @@
 
     this.showC = function (cityList) {
 
-        this.c.html('');
+        this.c.html('<option selected value=0>请选择市</option>');
 
         is_cName = false;
 
@@ -54,7 +54,7 @@
     }
 
     this.showA = function (areaList) {
-        this.a.html('');
+        this.a.html('<option selected value=0>请选择县/区</option>');
 
         for (var i in areaList) {
             
@@ -80,7 +80,6 @@
     form.on('select(city)', function(data){
         var cName = data.value;
         var pName = $(data.elem).parents(".x-city").find('select[lay-filter=province]').val();
-        console.log(pName);
         $(data.elem).parents(".x-city").xcity(pName,cName);
     });
 
