@@ -115,7 +115,7 @@ class Phonelog extends Controller
 
         $res = Db::name("phone_log")
         ->where($where)
-        ->order(['order','id'=>'desc'])
+        ->order(['pl_id'=>'desc'])
         ->limit($skip, $limit)
         ->select(); 
         $countNum = Db::name("phone_log")
