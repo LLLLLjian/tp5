@@ -51,9 +51,10 @@ class Phonelog extends Controller
      */
     public function read($id)
     {
-        $count = Db::connect("db_mongo")->name("phone_log")
+        $res = Db::name("phone_log")
             ->where("_id", $id)
             ->find();
+        var_dump($res);exit;
     }
 
     /**
@@ -76,7 +77,7 @@ class Phonelog extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        echo $id."update";exit;
     }
 
     /**
