@@ -2,7 +2,7 @@
 <html class="x-admin-sm">
     <head>
         <meta charset="UTF-8">
-        <title>欢迎页面-X-admin2.2</title>
+        <title>{$viewTitle}</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -37,8 +37,8 @@
                             <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
                                 {volist name="sysRes" id="sysRow"}
                                 <li class="layui-col-md2 layui-col-xs6">
-									<a href="{:url($sysRow["showUrl"])}" class="x-admin-backlog-body">
-										<h3>{$sysRow["showName"]}</h3>
+                                    <a href="{:url($sysRow["showUrl"])}" class="x-admin-backlog-body">
+                                        <h3>{$sysRow["showName"]}</h3>
                                         <p><cite>{$sysRow["showNum"]}</cite></p>
                                     </a>
                                 </li>
