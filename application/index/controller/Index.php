@@ -35,7 +35,7 @@ class Index extends Common
             foreach ($tempRes AS $key=>$value) {
                 $sysRes[$key] = array(
                     'showName' => $value['Tables_in_tentcent_tp'],
-                    'showUrl' => getUrlByTable($value['Tables_in_tentcent_tp']),
+                    'showUrl' => $this->getUrlByTable($value['Tables_in_tentcent_tp']),
                     'showNum' => Db::name($value['Tables_in_tentcent_tp'])->count()
                 );
             }
