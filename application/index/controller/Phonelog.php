@@ -99,28 +99,36 @@ class Phonelog extends Controller
 
         $mobile = trim(input('get.mobile'));
         if (!empty($mobile) && is_numeric($mobile) && preg_match("/^1[3-8]{1}\d{9}$/", $mobile)) {
-            $where["mobile"] = ["=","{$mobile}"];
+            $where["mobile"] = ["=", "{$mobile}"];
         }
         $phone_type = input('get.phone_type');
         if (!empty($phone_type)) {
-            $where["phone_type"] = ["=","{$mobile}"];
+            if ($phone_type == 1) {
+                $phone_type = "移动";
+            } elseif ($phone_type == 2) {
+                $phone_type = "联通";
+            } elseif ($phone_type == 3) {
+                $phone_type = "电信";
+            }
+            $where["phone_type"] = ["=", "{$phone_type}"];
         }
         $entry_date = input('get.entry_date');
         if (!empty($entry_date)) {
             $tempTimeS = strtotime($entry_date);
             $tempTimeE = $tempTimeS + 86399;
-            $where["create_time"] = [">=","{$tempTimeS}"];
-            $where["create_time"] = ["<=","{$tempTimeE}"];
+            $where["create_time"] = [">=", "{$tempTimeS}"];
+            $where["create_time"] = ["<=", "{$tempTimeE}"];
+            var_dump($where);exit;
         }
 
         $res = Db::name("phone_log")
-        ->where($where)
-        ->order(['id'=>'desc'])
-        ->limit($skip, $limit)
-        ->select(); 
+            ->where($where)
+            ->order(['id' => 'desc'])
+            ->limit($skip, $limit)
+            ->select();
         $countNum = Db::name("phone_log")
-        ->where($where)
-        ->count(); 
+            ->where($where)
+            ->count();
         $arr = array(
             'code' => 0,
             'msg' => '',
