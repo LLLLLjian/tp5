@@ -35,8 +35,8 @@ class Index extends Common
             foreach ($tempRes AS $key=>$value) {
                 $sysRes[$key] = array(
                     'showName' => $value['Tables_in_tentcent_tp'],
-                    'showUrl' => $value['Tables_in_tentcent_tp'],
-                    'showNum' => Db::name($value['Tables_in_tentcent_tp'])->max("id")
+                    'showUrl' => getUrlByTable($value['Tables_in_tentcent_tp']),
+                    'showNum' => Db::name($value['Tables_in_tentcent_tp'])->count()
                 );
             }
         }
@@ -133,6 +133,20 @@ class Index extends Common
             return $this->getPhoneInfo($mobile, 2);
         }
         return $res;
+    }
+
+    /**
+     * 通过表名获取
+     */
+    public function getUrlByTable($tableName)
+    {
+        if (empty($tableName)) {
+            return "";
+        } else {
+            $tableName = trim($tableName, "s");
+            // index/phonelog/index
+            return "index/".str_replace("_", "", $tableName)."/index";
+        }
     }
 
     public function getPwd()

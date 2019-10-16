@@ -148,7 +148,8 @@
             var phone_type = $("#phone_type").val();
             var entry_date = $("#entry_date").val();
             var urls = '{:url("index/phonelog/list")}' + '?mobile=' + mobile + "&phone_type=" + phone_type + "&entry_date=" + entry_date;
-            TB.reload({
+            TB = table.render({
+                elem: '#demo',
                 url: urls,
                 cols: [[ //表头
                     { field: 'id', width: 80, title: 'ID', sort: true },

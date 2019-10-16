@@ -37,7 +37,7 @@
                             <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
                                 {volist name="sysRes" id="sysRow"}
                                 <li class="layui-col-md2 layui-col-xs6">
-                                    <a href="javascript:;" class="x-admin-backlog-body">
+                                    <a href="{:url($sysRow["showUrl"])}" class="x-admin-backlog-body">
                                         <h3>{$sysRow["showName"]}</h3>
                                         <p><cite>{$sysRow["showNum"]}</cite></p>
                                     </a>
