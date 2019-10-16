@@ -36,12 +36,11 @@ class Index extends Common
                 $sysRes[$key] = array(
                     'showName' => $value['Tables_in_tentcent_tp'],
                     'showUrl' => $value['Tables_in_tentcent_tp'],
-                    'showNum' => Db::name($value['Tables_in_tentcent_tp'])->count()
+                    'showNum' => Db::name($value['Tables_in_tentcent_tp'])->max("id")
                 );
             }
         }
         $this->assign("sysRes", $sysRes);
-        
 
         //当前日期
         $ymd = date("Y-m-d");
