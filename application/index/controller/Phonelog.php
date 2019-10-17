@@ -5,6 +5,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use app\index\model\Phonelog AS PhonelogModel;
 
 class Phonelog extends Common
 {
@@ -38,9 +39,16 @@ class Phonelog extends Common
     public function save(Request $request)
     {
         $mobile = input('post.mobile');
+        $phoneLogModel = new PhonelogModel();
+        $res = $phoneLogModel->getInfoByMobile($mobile);
+        if (empty($res)) {
+            exec("/usr/bin/python3.5 /var/nginx/html/tp5/python/mongoPythonForPhone.py {$mobile} 2>&1");
+            echo json_encode(array('code' => 0, 'msg' => '添加成功'));
+        } else {
+            echo json_encode(array('code' => 1, 'msg' => '添加失败, 该手机号已存在.'));
+        }
 
-        exec("/usr/bin/python3.5 /var/nginx/html/tp5/python/mongoPythonForPhone.py {$mobile} 2>&1");
-        echo json_encode(array('code' => 0, 'msg' => '成功'));
+        
     }
 
     /**
@@ -49,12 +57,16 @@ class Phonelog extends Common
      * @param int $id            
      * @return \think\Response
      */
-    public function read($id)
+    public function read($mobile)
     {
-        $res = Db::name("phone_log")
-            ->where("_id", $id)
-            ->find();
-        var_dump($res);exit;
+        if (!empty($mobile)) {
+            $phoneLogModel = new PhonelogModel();
+            $res = $phoneLogModel->getInfoByMobile($mobile);
+            var_dump($res);exit;
+            $this->assign('res', $res);
+        } else {
+            exit("出错误了！！");
+        }
     }
 
     /**
