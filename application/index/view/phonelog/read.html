@@ -4,29 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>{$viewTitle}</title>
-    <link rel="stylesheet" href="/static/xadmin/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="__STATIC1__/xadmin/lib/layui/css/layui.css">
     <style>
     </style>
 </head>
 
 <body>
-    <div class="layui-form">
-        <table class="layui-table">
-            <tr>
-                <td>
-                    <label class="layui-form-label">角色介绍</label>
-                </td>
-                <td>
-                    <div class="layui-input-block">
-                        <input type="text" id="desc" required lay-verify="required" placeholder="请输入角色介绍"
-                            autocomplete="off" class="layui-input">
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <script src="/static/xadmin/lib/layui/jquery-3.2.1.min.js"></script>
-    <script src="/static/xadmin/lib/layui/layui.js"></script>
+    {volist name="res" id="row"}
+    <fieldset class="layui-elem-field" >
+        <legend>{$row['showKey']}</legend>
+        <div class="layui-field-box">{$row['showValue']}</div>
+    </fieldset>
+    {/volist}
+    <script src="__STATIC1__/xadmin/lib/layui/jquery-3.2.1.min.js"></script>
+    <script src="__STATIC1__/xadmin/lib/layui/layui.js"></script>
 </body>
 
 </html>

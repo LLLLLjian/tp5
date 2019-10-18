@@ -62,8 +62,8 @@ class Phonelog extends Common
         if (!empty($mobile)) {
             $phoneLogModel = new PhonelogModel();
             $res = $phoneLogModel->getInfoByMobile($mobile);
-            var_dump($res);exit;
             $this->assign('res', $res);
+            return $this->fetch();
         } else {
             exit("出错误了！！");
         }
