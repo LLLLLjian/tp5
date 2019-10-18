@@ -5,7 +5,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
-use app\index\model\Phonelog AS PhonelogModel;
+use app\index\model\Phonelog as PhonelogModel;
 
 class Phonelog extends Common
 {
@@ -47,8 +47,6 @@ class Phonelog extends Common
         } else {
             echo json_encode(array('code' => 1, 'msg' => '添加失败, 该手机号已存在.'));
         }
-
-        
     }
 
     /**
@@ -89,7 +87,8 @@ class Phonelog extends Common
      */
     public function update(Request $request, $id)
     {
-        echo $id."update";exit;
+        echo $id . "update";
+        exit;
     }
 
     /**
@@ -129,7 +128,7 @@ class Phonelog extends Common
             $tempTimeS = strtotime($entry_date);
             $tempTimeE = $tempTimeS + 86399;
             $where[] = ["create_time", ">=", "{$tempTimeS}"];
-			$where[] = ["create_time", "<=", "{$tempTimeE}"];
+            $where[] = ["create_time", "<=", "{$tempTimeE}"];
         }
 
         $res = Db::name("phone_log")

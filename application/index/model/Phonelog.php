@@ -34,10 +34,10 @@ class Phonelog extends Model
             ->field('pl.*, rl.*, rl.id AS rlId')
             ->join('region_log rl', 'rl.zipcode = pl.zip_code', 'LEFT')
             ->where(array("pl.mobile" => $mobile))
-            ->where(array("rl.level" => 2))
-            ->find()->toArray();
+            ->find();
 
             if (!empty($mobileInfo)) {
+                $mobileInfo = $mobileInfo->toArray();
                 $mobileDetail = $this->mobileDetail;
                 foreach ($mobileInfo AS $key=>$value) {
                     $mobileInfo[$key] = array(

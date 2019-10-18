@@ -4,10 +4,11 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
+use think\Db;
+use app\index\model\Wechatlogs as WechatlogsModel;
 
-class Wechatlog extends Controller
+class Wechatlog extends Common
 {
-
     /**
      * 显示资源列表
      *
@@ -15,7 +16,7 @@ class Wechatlog extends Controller
      */
     public function index()
     {
-        //
+        return $this->fetch();
     }
 
     /**
@@ -47,7 +48,14 @@ class Wechatlog extends Controller
      */
     public function read($id)
     {
-        //
+        if (!empty($id)) {
+            $wechatLogsModel = new WechatlogsModel();
+            $res = $wechatLogsModel->getInfoByMogoId($id);
+            $this->assign('res', $res);
+            return $this->fetch();
+        } else {
+            exit("出错误了！！");
+        }
     }
 
     /**
@@ -70,7 +78,8 @@ class Wechatlog extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        echo $id . "update";
+        exit;
     }
 
     /**
@@ -82,5 +91,29 @@ class Wechatlog extends Controller
     public function delete($id)
     {
         //
+    }
+
+    public function list()
+    {
+        $where = array();
+        $limit = input('get.limit');
+        $skip = (input('get.page', 1) - 1) * $limit;
+
+        $res = Db::name("wechat_logs")
+            ->where($where)
+            ->order(['id' => 'desc'])
+            ->limit($skip, $limit)
+            ->select();
+        $countNum = Db::name("wechat_logs")
+            ->where($where)
+            ->count();
+        $arr = array(
+            'code' => 0,
+            'msg' => '',
+            'count' => $countNum,
+            'data' => $res
+        );
+
+        echo json_encode($arr);
     }
 }
