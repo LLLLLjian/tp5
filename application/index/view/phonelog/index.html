@@ -85,7 +85,6 @@
             </table>
             <!--主体内容 end-->
         </div>
-
     </div>
     <script src="__STATIC1__/xadmin/lib/layui/jquery-3.2.1.min.js"></script>
     <script src="__STATIC1__/xadmin/lib/layui/layui.js"></script>
@@ -94,6 +93,7 @@
         layui.config({
             base: '__STATIC1__/xadmin/' //静态资源所在路径
         });
+
         layui.use(['laydate', 'form', 'util', 'code', 'element'], function () {
             var laydate = layui.laydate;
             var table = layui.table;
@@ -261,7 +261,6 @@
                 }
             });
         });
-        });
     </script>
 </body>
 <!--顶部操作栏-->
@@ -278,6 +277,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 </script>
 
+<!--添加操作-->
 <script type="text/html" id="addDialog">
     <form class="layui-form" action="{:Url('Phonelog/add')}" style="padding: 20px;" lay-filter="addDialogForm" id="addDialogForm">
         <div class="layui-form-item">
