@@ -16,7 +16,7 @@ class Wechatlog extends Common
      */
     public function index()
     {
-        $app = app('wechat.official_account');$userSummary = $app->data_cube->userSummary('2019-10-01', '2019-10-30');var_dump($userSummary);return $this->fetch();
+        return $this->fetch();
     }
 
     /**
@@ -98,6 +98,18 @@ class Wechatlog extends Common
         $where = array();
         $limit = input('get.limit');
         $skip = (input('get.page', 1) - 1) * $limit;
+
+        $wechat_type = input('get.wechat_type');
+        if (!empty($wechat_type)) {
+            $where[] = ["wechat_type", "=", "{$wechat_type}"];
+        }
+        $create_time = input('get.create_time');
+        if (!empty($create_time)) {
+            $tempTimeS = strtotime($create_time);
+            $tempTimeE = $tempTimeS + 86399;
+            $where[] = ["create_time", ">=", "{$tempTimeS}"];
+            $where[] = ["create_time", "<=", "{$tempTimeE}"];
+        }
 
         $res = Db::name("wechat_logs")
             ->where($where)

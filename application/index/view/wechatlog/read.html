@@ -12,8 +12,11 @@
 <body>
     {volist name="res" id="row"}
     <fieldset class="layui-elem-field" >
-        <legend>{$row}</legend>
-        <div class="layui-field-box">{$row}</div>
+        <legend>{$key}</legend>
+        <div class="layui-field-box">
+                image
+            {$row}
+        </div>
     </fieldset>
     {/volist}
     <script src="__STATIC1__/xadmin/lib/layui/jquery-3.2.1.min.js"></script>
