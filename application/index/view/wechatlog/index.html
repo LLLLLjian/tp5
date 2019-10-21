@@ -170,7 +170,7 @@
 
                 if (layEvent === 'detail') { //查看
                     var id = data.m_wechat_log_id;
-                    var url='{:url("index/wechatlog/read")}'+'?id='+mobile;
+                    var url='{:url("index/wechatlog/read")}'+'?id='+id;
                     layer.open({
                         type: 2,
                         title: '信息',

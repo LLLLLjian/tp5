@@ -39,15 +39,17 @@ class Wechatlogs extends Model
     // 根据mongoId获取信息
     public function getInfoByMogoId($id)
     {
+		$res = array();
         if (!empty($id)) {
+			$id = intval($id);
             $res0 = Db::connect("db_mongo")->name("wechat_log")
             ->where("_id", $id)
             ->find();
 
-            $res1 = $this->where("m_wechat_log_id", $id)->find();
+            $res1 = $this->where("m_wechat_log_id", $id)->find()->toArray();
 
             $res = array_merge($res0, $res1);
-            dump($res, $res0, $res1);exit;
         }
+		return $res;
     }
 }

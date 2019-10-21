@@ -16,7 +16,7 @@ class Wechatlog extends Common
      */
     public function index()
     {
-        return $this->fetch();
+        $app = app('wechat.official_account');$userSummary = $app->data_cube->userSummary('2019-10-01', '2019-10-30');var_dump($userSummary);return $this->fetch();
     }
 
     /**
