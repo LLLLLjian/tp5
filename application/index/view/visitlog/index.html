@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{$viewTitle}</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="__STATIC1__/xadmin/lib/layui/css/layui.css" media="all">
+</head>
+
+<body>
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <!--主体内容 start-->
+            <div class="layui-collapse" lay-filter="test">
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">条件筛选<i class="layui-icon layui-colla-icon"></i></h2>
+                    <div class="layui-colla-content">
+                        <form class="layui-form  layui-form-pane">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">访问类型</label>
+                                    <div class="layui-input-inline">
+                                        <select name="method" id="method" lay-verify="required" lay-search>
+                                            <option value="0">=请选择=</option>
+                                            <option value="get">GET</option>
+                                            <option value="POST">POST</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">访问日期</label>
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" placeholder="访问日期" name="visit_time" id="visit_time">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button type ="button" style="margin-left: 50px;" class="layui-btn" onclick="ser_on()">搜索</button>
+                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <table id="demo" lay-filter="test">
+
+            </table>
+            <!--主体内容 end-->
+        </div>
+    </div>
+    <script src="__STATIC1__/xadmin/lib/layui/jquery-3.2.1.min.js"></script>
+    <script src="__STATIC1__/xadmin/lib/layui/layui.js"></script>
+    <script src="__STATIC1__/xadmin/js/xcity.js""></script>
+    <script>
+        layui.config({
+            base: '__STATIC1__/xadmin/' //静态资源所在路径
+        });
+
+        layui.use(['laydate', 'form', 'util', 'code', 'element'], function () {
+            var laydate = layui.laydate;
+            var table = layui.table;
+            var form = layui.form;
+            var util = layui.util;
+            var element = layui.element;
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#create_time' //指定元素
+            });
+        });
+
+        layui.use('table', function () {
+            var table = layui.table;
+            var util = layui.util;
+            var urls = '{:url("index/wechatlog/list")}';
+            //第一个实例
+            TB = table.render({
+                elem: '#demo',
+                height: 'full-100',
+                limits: [10, 20, 50, 100, 500],
+                limit: 10,
+                url: urls, //数据接口,
+                page: true, //开启分页,
+                defaultToolbar: [],
+                toolbar: '#toolbarDemo',
+                cols: [[ //表头
+                    { field: 'id', title: 'ID', sort: true },
+                    { field: 'user_id', title: '访问人ID'},
+                    { field: 'ip', title: '访问IP'},
+                    { field: 'visit_url',  title: '访问路径' },
+                    { field: 'method',  title: '访问方式' },
+                    { field: 'visit_time', width: 160, title: '访问时间', sort: true },
+                    { field: 'visit_time', width: 160, title: '访问时间', sort: true, templet: function (d) { return util.toDateString(d.create_time * 1000); } },
+                    { fixed: 'right', width: 200, title: '操作', align: 'center', toolbar: '#barDemo' }
+                ]]
+            });
+        });
+
+        // 搜索
+        function ser_on() {
+            var table = layui.table;
+            var util = layui.util;
+            var method = $("#method").val();
+            var visit_time = $("#visit_time").val();
+            var urls = '{:url("index/visitlog/list")}' + '?method=' + method + "&visit_time=" + visit_time;
+            TB = table.render({
+                elem: '#demo',
+                height: 'full-100',
+                limits: [10, 20, 50, 100, 500],
+                limit: 10,
+                url: urls, //数据接口,
+                page: true, //开启分页,
+                defaultToolbar: [],
+                toolbar: '#toolbarDemo',
+                cols: [[ //表头
+                { field: 'id', title: 'ID', sort: true },
+                { field: 'id', title: 'ID', sort: true },
+                    { field: 'user_id', title: '访问人ID', templet: function (d) { 
+                        return app\index\model\User->getUserInfoByid(d.user_id)['username']; } },
+                    { field: 'ip', title: '访问IP'},
+                    { field: 'visit_url',  title: '访问路径' },
+                    { field: 'method',  title: '访问方式' },
+                    { field: 'visit_time', width: 160, title: '访问时间', sort: true },
+                    { field: 'visit_time', width: 160, title: '访问时间', sort: true, templet: function (d) { return util.toDateString(d.create_time * 1000); } },
+                    { fixed: 'right', width: 200, title: '操作', align: 'center', toolbar: '#barDemo' }
+                ]]
+            });
+        }
+
+        layui.use('table', function () {
+            var table = layui.table;
+
+            //监听事件
+            table.on('toolbar(test)', function (obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+
+                switch (obj.event) {
+                    case 'delete':
+                        console.log(checkStatus);
+                        layer.confirm('真的删除选中行么', function (index) {
+                            layer.close(index);
+                            //向服务端发送删除指令
+                        });
+                        break;
+                }
+            });
+
+            //监听工具条
+            table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+                if (layEvent === 'detail') { //查看
+                    var id = data.id;
+                    var url='{:url("index/visitlog/read")}'+'?id='+id;
+                    layer.open({
+                        type: 2,
+                        title: '信息',
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['80%', '80%'],
+                        content: url, //iframe的url
+                    });
+                } else if (layEvent === 'del') { //删除
+                    console.log(data);
+                    console.log("del");
+                } else if (layEvent === 'edit') { //编辑
+                    console.log(data);
+                    console.log("edit");
+                }
+            });
+        });
+    </script>
+</body>
+<!--顶部操作栏-->
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+        <!-- <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button> -->
+    </div>
+</script>
+
+<!--每条数据的操作栏-->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+</script>
+
+<!--添加操作-->
+<script type="text/html" id="addDialog">
+    <form class="layui-form" action="{:Url('Phonelog/add')}" style="padding: 20px;" lay-filter="addDialogForm" id="addDialogForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="mobile"  autocomplete="off" class="layui-input" id="mobile">
+            </div>
+        </div>
+    </form>
+</script>
