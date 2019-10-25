@@ -81,7 +81,7 @@
         layui.use('table', function () {
             var table = layui.table;
             var util = layui.util;
-            var urls = '{:url("index/wechatlog/list")}';
+            var urls = '{:url("index/visitlog/list")}';
             //第一个实例
             TB = table.render({
                 elem: '#demo',
@@ -125,7 +125,7 @@
                 { field: 'id', title: 'ID', sort: true },
                 { field: 'id', title: 'ID', sort: true },
                     { field: 'user_id', title: '访问人ID', templet: function (d) { 
-                        return app\index\model\User->getUserInfoByid(d.user_id)['username']; } },
+                        return 12131; }},
                     { field: 'ip', title: '访问IP'},
                     { field: 'visit_url',  title: '访问路径' },
                     { field: 'method',  title: '访问方式' },

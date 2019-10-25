@@ -118,7 +118,7 @@
             var util = layui.util;
             var wechat_type = $("#wechat_type").val();
             var create_time = $("#create_time").val();
-            var urls = '{:url("index/wechatlog/list")}' + '?mobile=' + mobile + "&wechat_type=" + wechat_type + "&create_time=" + create_time;
+            var urls = '{:url("index/wechatlog/list")}' + "?wechat_type=" + wechat_type + "&create_time=" + create_time;
             TB = table.render({
                 elem: '#demo',
                 height: 'full-100',
