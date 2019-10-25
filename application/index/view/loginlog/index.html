@@ -21,19 +21,6 @@
                         <form class="layui-form  layui-form-pane">
                             <div class="layui-form-item">
                                 <div class="layui-inline">
-                                    <label class="layui-form-label">访问类型</label>
-                                    <div class="layui-input-inline">
-                                        <select name="method" id="method" lay-verify="required" lay-search>
-                                            <option value="0">=请选择=</option>
-                                            <option value="get">GET</option>
-                                            <option value="POST">POST</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item">
-                                <div class="layui-inline">
                                     <label class="layui-form-label">访问日期</label>
                                     <div class="layui-input-inline">
                                         <input class="layui-input" placeholder="访问日期" name="visit_time" id="visit_time">
@@ -81,7 +68,7 @@
         layui.use('table', function () {
             var table = layui.table;
             var util = layui.util;
-            var urls = '{:url("index/visitlog/list")}';
+            var urls = '{:url("index/loginlog/list")}';
             //第一个实例
             TB = table.render({
                 elem: '#demo',
@@ -96,10 +83,11 @@
                     { field: 'id', title: 'ID', sort: true },
                     { field: 'user_id', title: '访问人ID'},
                     { field: 'ip', title: '访问IP'},
-                    { field: 'visit_url',  title: '访问路径' },
-                    { field: 'method',  title: '访问方式' },
-                    { field: 'visit_time', width: 160, title: '访问时间', sort: true },
-                    { field: 'visit_time', width: 160, title: '访问时间', sort: true, templet: function (d) { return util.toDateString(d.create_time * 1000); } },
+                    { field: 'browser_type',  title: '浏览器版本' },
+                    { field: 'browser',  title: '浏览器类型' },
+                    { field: 'type_os',  title: '操作系统' },
+                    { field: 'create_time', width: 160, title: '访问时间', sort: true },
+                    { field: 'create_time', width: 160, title: '访问时间', sort: true, templet: function (d) { return util.toDateString(d.create_time * 1000); } },
                     { fixed: 'right', width: 200, title: '操作', align: 'center', toolbar: '#barDemo' }
                 ]]
             });
@@ -109,9 +97,8 @@
         function ser_on() {
             var table = layui.table;
             var util = layui.util;
-            var method = $("#method").val();
             var visit_time = $("#visit_time").val();
-            var urls = '{:url("index/visitlog/list")}' + '?method=' + method + "&visit_time=" + visit_time;
+            var urls = '{:url("index/loginlog/list")}' + '?visit_time=' + visit_time;
             TB = table.render({
                 elem: '#demo',
                 height: 'full-100',
@@ -123,13 +110,13 @@
                 toolbar: '#toolbarDemo',
                 cols: [[ //表头
                     { field: 'id', title: 'ID', sort: true },
-                    { field: 'id', title: 'ID', sort: true },
                     { field: 'user_id', title: '访问人ID'},
                     { field: 'ip', title: '访问IP'},
-                    { field: 'visit_url',  title: '访问路径' },
-                    { field: 'method',  title: '访问方式' },
-                    { field: 'visit_time', width: 160, title: '访问时间', sort: true },
-                    { field: 'visit_time', width: 160, title: '访问时间', sort: true, templet: function (d) { return util.toDateString(d.create_time * 1000); } },
+                    { field: 'browser_type',  title: '浏览器版本' },
+                    { field: 'browser',  title: '浏览器类型' },
+                    { field: 'type_os',  title: '操作系统' },
+                    { field: 'create_time', width: 160, title: '访问时间', sort: true },
+                    { field: 'create_time', width: 160, title: '访问时间', sort: true, templet: function (d) { return util.toDateString(d.create_time * 1000); } },
                     { fixed: 'right', width: 200, title: '操作', align: 'center', toolbar: '#barDemo' }
                 ]]
             });
