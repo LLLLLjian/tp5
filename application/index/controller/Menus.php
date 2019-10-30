@@ -14,7 +14,7 @@ class Menus extends Common
      * @return \think\Response
      */
     public function index()
-    {
+    {   
         return $this->fetch();
     }
 
