@@ -170,7 +170,6 @@ class Crontablog extends Common
      */
     public function runCommandBackground($command)
     {
-        echo dirname(dirname(__DIR__)) . $command . ' &';
-        //system($this->runnerScript . $command . ' &');
+        system("(/usr/local/bin/python3.7 /home/llllljian/python/12306/run.py r) >> /tmp/testFor12306.log");
     }
 }
