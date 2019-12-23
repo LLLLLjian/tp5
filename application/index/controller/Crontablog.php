@@ -107,9 +107,8 @@ class Crontablog extends Common
                     continue 2;
                 }
             }
-            echo $command;
             // 下面是调用系统函数执行shell命令
-            //$this->runCommandBackground($command);
+            $this->runCommandBackground($command);
         }
     }
 
@@ -118,62 +117,62 @@ class Crontablog extends Common
      * @param $cronJobs
      * @return array
      */
-    // public function parseCron($cronJobs)
-    // {
-    //     // 解析后的数组
-    //     $raw = [];
-    //     foreach ($cronJobs as $command => $cron) {
-    //         // $command -> hello/index  $cron -> */5 * * * *
-    //         // 将命令用空格分割成数组
-    //         $cronArr = explode(' ', $cron, 5); // ['*/5', '*', '*', '*', '*']
-    //         // 针对每一个位置进行解析
-    //         $dimensions = array(
-    //             array(0, 59), //Minutes
-    //             array(0, 23), //Hours
-    //             array(1, 31), //Days
-    //             array(1, 12), //Months
-    //             array(0, 6),  //Weekdays
-    //         );
-    //         foreach ($cronArr as $key => $item) {
-    //             // 标记是哪种命令格式，通过使用的crontab命令可以分为两大类
-    //             // 1.每几分钟或每小时这样的 */10 * * * *
-    //             // 2.几点几分这样的 10,20,30-50 * * * *
-    //             list($repeat, $every) = explode('/', $item, 2) + [false, 1];
-    //             if ($repeat === '*') {
-    //                 $raw[$command][$key] = range($dimensions[$key][0], $dimensions[$key][1]);
-    //             } else {
-    //                 // 处理逗号拼接的命令
-    //                 $tmpRaw = explode(',', $item);
-    //                 foreach ($tmpRaw as $tmp) {
-    //                     // 处理10-20这样范围的命令
-    //                     $tmp = explode('-', $tmp, 2);
-    //                     if (count($tmp) == 2) {
-    //                         $raw[$command][$key] = array_merge($raw[$command][$key], range($tmp[0], $tmp[1]));
-    //                     } else {
-    //                         $raw[$command][$key][] = $tmp[0];
-    //                     }
-    //                 }
-    //             }
-    //             // 判断*/10 这种类型的
-    //             if ($every > 1) {
-    //                 foreach ($raw[$command][$key] as $k => $v) {
-    //                     if ($v % $every != 0) {
-    //                         unset($raw[$command][$key][$k]);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return $raw;
-    // }
+    public function parseCron($cronJobs)
+    {
+        // 解析后的数组
+        $raw = [];
+        foreach ($cronJobs as $command => $cron) {
+            // $command -> hello/index  $cron -> */5 * * * *
+            // 将命令用空格分割成数组
+            $cronArr = explode(' ', $cron, 5); // ['*/5', '*', '*', '*', '*']
+            // 针对每一个位置进行解析
+            $dimensions = array(
+                array(0, 59), //Minutes
+                array(0, 23), //Hours
+                array(1, 31), //Days
+                array(1, 12), //Months
+                array(0, 6),  //Weekdays
+            );
+            foreach ($cronArr as $key => $item) {
+                // 标记是哪种命令格式，通过使用的crontab命令可以分为两大类
+                // 1.每几分钟或每小时这样的 */10 * * * *
+                // 2.几点几分这样的 10,20,30-50 * * * *
+                list($repeat, $every) = explode('/', $item, 2) + [false, 1];
+                if ($repeat === '*') {
+                    $raw[$command][$key] = range($dimensions[$key][0], $dimensions[$key][1]);
+                } else {
+                    // 处理逗号拼接的命令
+                    $tmpRaw = explode(',', $item);
+                    foreach ($tmpRaw as $tmp) {
+                        // 处理10-20这样范围的命令
+                        $tmp = explode('-', $tmp, 2);
+                        if (count($tmp) == 2) {
+                            $raw[$command][$key] = array_merge($raw[$command][$key], range($tmp[0], $tmp[1]));
+                        } else {
+                            $raw[$command][$key][] = $tmp[0];
+                        }
+                    }
+                }
+                // 判断*/10 这种类型的
+                if ($every > 1) {
+                    foreach ($raw[$command][$key] as $k => $v) {
+                        if ($v % $every != 0) {
+                            unset($raw[$command][$key][$k]);
+                        }
+                    }
+                }
+            }
+        }
+        return $raw;
+    }
 
-    // /**
-    //  * 以守护进程模式执行命令
-    //  * @param $command
-    //  */
-    // public function runCommandBackground($command)
-    // {
-    //     echo $this->runnerScript . $command . ' &';
-    //     //system($this->runnerScript . $command . ' &');
-    // }
+    /**
+     * 以守护进程模式执行命令
+     * @param $command
+     */
+    public function runCommandBackground($command)
+    {
+        echo $this->runnerScript . $command . ' &';
+        //system($this->runnerScript . $command . ' &');
+    }
 }
