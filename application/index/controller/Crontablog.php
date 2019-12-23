@@ -99,7 +99,6 @@ class Crontablog extends Common
          */
         $now = explode(' ', date('i G j n w', time()));
         $raw = $this->parseCron(array('hello/index' => '* * * * *'));
-        var_dump($now, $raw);exit;
         foreach ($raw as $command => $cron) {
             // 上面已经列出了所有的情况，所以当前时间循环时如果有一项不符合则不能向下执行
             foreach ($now as $k => $piece) {
