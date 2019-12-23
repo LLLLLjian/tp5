@@ -15,6 +15,7 @@ class Crontablog extends Common
      */
     public function index()
     {
+        echo "123";exit;
         return $this->fetch();
     }
 
