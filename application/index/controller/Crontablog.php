@@ -170,7 +170,7 @@ class Crontablog extends Common
      */
     public function runCommandBackground($command)
     {
-        echo $this->runnerScript . $command . ' &';
+        echo dirname(dirname(__DIR__)) . $command . ' &';
         //system($this->runnerScript . $command . ' &');
     }
 }
