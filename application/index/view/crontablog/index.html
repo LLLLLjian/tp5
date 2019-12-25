@@ -213,11 +213,28 @@
 
 <!--添加操作-->
 <script type="text/html" id="addDialog">
-    <form class="layui-form" action="{:Url('Phonelog/add')}" style="padding: 20px;" lay-filter="addDialogForm" id="addDialogForm">
+    <form class="layui-form" action="{:Url('Crontablog/add')}" style="padding: 20px;" lay-filter="addDialogForm" id="addDialogForm">
         <div class="layui-form-item">
-            <label class="layui-form-label">手机号</label>
+            <label class="layui-form-label">运行的脚本:</label>
             <div class="layui-input-inline">
-                <input type="text" name="mobile"  autocomplete="off" class="layui-input" id="mobile">
+                <input type="text" name="task_cmd"  autocomplete="off" class="layui-input" id="task_cmd">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">分钟:</label>
+            <div class="layui-input-inline">
+                <select name="task_minute[]" multiple="" lay-search="">
+                    <option value="">请选择您的兴趣爱好</option>
+                    <option>sing1</option>
+                    <option selected="">sing2</option>
+                    <option>SING1-大写</option>
+                    <option>movie1</option>
+                    <option selected="">movie2</option>
+                    <option>movie3</option>
+                    <option>MOVIE4</option>
+                    <option>swim</option>
+                    <option>moon</option>
+                </select>
             </div>
         </div>
     </form>
