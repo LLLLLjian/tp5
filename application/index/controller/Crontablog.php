@@ -34,7 +34,7 @@ class Crontablog extends Common
      * @param \think\Request $request            
      * @return \think\Response
      */
-    public function save($request)
+    public function save(Request $request)
     {
         //
     }
@@ -47,7 +47,7 @@ class Crontablog extends Common
      */
     public function read($id)
     {
-        
+        echo $id;exit;
     }
 
     /**
@@ -68,7 +68,7 @@ class Crontablog extends Common
      * @param int $id            
      * @return \think\Response
      */
-    public function update($request, $id)
+    public function update(Request $request, $id)
     {
         echo $id . "update";
         exit;
@@ -83,6 +83,38 @@ class Crontablog extends Common
     public function delete($id)
     {
         //
+    }
+
+    public function list()
+    {
+        $where = array();
+        $limit = input('get.limit');
+        $skip = (input('get.page', 1) - 1) * $limit;
+
+        $visit_time = input('get.create_time');
+        if (!empty($visit_time)) {
+            $tempTimeS = strtotime($visit_time);
+            $tempTimeE = $tempTimeS + 86399;
+            $where[] = ["create_time", ">=", "{$tempTimeS}"];
+            $where[] = ["create_time", "<=", "{$tempTimeE}"];
+        }
+
+        $res = Db::name("crontab_logs")
+            ->where($where)
+            ->order(['id' => 'desc'])
+            ->limit($skip, $limit)
+            ->select();
+        $countNum = Db::name("crontab_logs")
+            ->where($where)
+            ->count();
+        $arr = array(
+            'code' => 0,
+            'msg' => '',
+            'count' => $countNum,
+            'data' => $res
+        );
+
+        echo json_encode($arr);
     }
 
     public function run()
@@ -173,3 +205,4 @@ class Crontablog extends Common
         echo $command;exit;
     }
 }
+
