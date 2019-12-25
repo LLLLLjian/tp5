@@ -161,36 +161,7 @@
                     console.log("edit");
                 }
             });
-
-            form.on('switch(is_valid)', function(data){
-                // 得到开关的value值，实际是需要修改的ID值。
-                var id = data.value;
-                var is_valid = this.checked ? '1' : '0';
-                var index = '';
-                
-                $ajax({
-                    type: 'POST',
-                    url: '/hetong/setAlert/',
-                    data: {"id" :id,"is_valid":is_valid  },
-                    beforeSend:function(){
-                        index = layer.msg('正在切换中，请稍候',{icon: 16,time:false,shade:0.8});     
-                    },
-                    error: function(data){
-                        console.log(data);	          
-                        layer.msg('数据异常，操作失败！'); 
-                    },
-                    success: function(data){  
-                    if(data.result=="SUCCESS"){ 
-                        setTimeout(function(){
-                            layer.close(index);
-                            layer.msg('操作成功！');},2000);  
-                        }else{
-                            console.log(data);
-                            layer.msg('数据异常，操作失败！'); 
-                        }},		  
-                    dataType:'JSON'
-                });
-            });
+        }
     </script>
 </body>
 <!--顶部操作栏-->
