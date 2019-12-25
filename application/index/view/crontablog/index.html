@@ -68,7 +68,7 @@
         layui.use('table', function () {
             var table = layui.table;
             var util = layui.util;
-            var urls = '{:url("index/loginlog/list")}';
+            var urls = '{:url("index/crontablog/list")}';
             //第一个实例
             TB = table.render({
                 elem: '#demo',
@@ -96,7 +96,7 @@
             var table = layui.table;
             var util = layui.util;
             var create_time = $("#create_time").val();
-            var urls = '{:url("index/crontablist/list")}' + '?create_time=' + create_time;
+            var urls = '{:url("index/crontablog/list")}' + '?create_time=' + create_time;
             TB = table.render({
                 elem: '#demo',
                 height: 'full-100',
@@ -160,6 +160,40 @@
                     console.log(data);
                     console.log("edit");
                 }
+            });
+        });
+
+        layui.use('form', function () {
+            var form = layui.form;
+
+            form.on('switch(is_valid)', function(data){
+                // 得到开关的value值，实际是需要修改的ID值。
+                var id = data.value;
+                var is_valid = this.checked ? '1' : '0';
+                var index = '';
+                
+                $ajax({
+                    type: 'POST',
+                    url: '/hetong/setAlert/',
+                    data: {"id" :id,"is_valid":is_valid  },
+                    beforeSend:function(){
+                        index = layer.msg('正在切换中，请稍候',{icon: 16,time:false,shade:0.8});     
+                    },
+                    error: function(data){
+                        console.log(data);	          
+                        layer.msg('数据异常，操作失败！'); 
+                    },
+                    success: function(data){  
+                    if(data.result=="SUCCESS"){ 
+                        setTimeout(function(){
+                            layer.close(index);
+                            layer.msg('操作成功！');},2000);  
+                        }else{
+                            console.log(data);
+                            layer.msg('数据异常，操作失败！'); 
+                        }},		  
+                    dataType:'JSON'
+                });
             });
         });
     </script>
