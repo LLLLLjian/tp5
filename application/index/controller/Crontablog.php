@@ -34,7 +34,7 @@ class Crontablog extends Common
      * @param \think\Request $request            
      * @return \think\Response
      */
-    public function save(Request $request)
+    public function save($request)
     {
         //
     }
@@ -68,7 +68,7 @@ class Crontablog extends Common
      * @param int $id            
      * @return \think\Response
      */
-    public function update(Request $request, $id)
+    public function update($request, $id)
     {
         echo $id . "update";
         exit;
@@ -170,6 +170,6 @@ class Crontablog extends Common
      */
     public function runCommandBackground($command)
     {
-        system("(/usr/local/bin/python3.7 /home/llllljian/python/12306/run.py r) >> /tmp/testFor12306.log");
+        echo $command;exit;
     }
 }
