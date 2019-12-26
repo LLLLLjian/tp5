@@ -131,11 +131,14 @@
                 switch (obj.event) {
                     case 'add':
                         layer.open({
-                            type: 1,
+                            type: 2,
                             title: '添加',
-                            area: ['50%', '70%'],
+                            area: ['90%', '90%'],
                             content: $('#addDialog').html(), //这里content是一个普通的String
                             btn: ['确定', '取消'],
+                            success: function (index, layero) {
+                                form.render();
+                            },
                             yes: function (index, layero) {
                                 //ajax提交
                                 $.ajax({
@@ -249,12 +252,7 @@
 </script>
 
 <!--添加操作-->
-<script type="text/html" id="addDialog">
-    layui.use('form', function () {
-        var form = layui.form;
-        form.render();
-    });
-    
+<script type="text/html" id="addDialog">    
     <form class="layui-form" action="{:Url('Crontablog/add')}" style="padding: 20px;" lay-filter="addDialogForm" id="addDialogForm">
         <div class="layui-form-item">
             <label class="layui-form-label">运行的脚本:</label>
