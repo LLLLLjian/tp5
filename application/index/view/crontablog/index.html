@@ -126,6 +126,40 @@
                 var checkStatus = table.checkStatus(obj.config.id);
 
                 switch (obj.event) {
+                    case 'add':
+                        layer.open({
+                            type: 1,
+                            title: '添加',
+                            area:['50%','70%'],
+                            content: $('#addDialog').html(), //这里content是一个普通的String
+                            btn: ['确定', '取消'],
+                            success: function (index, layero) {
+                                form.render();
+                            },
+                            yes: function (index, layero) {
+                                //ajax提交
+                                $.ajax({
+                                    type: "POST",
+                                    dataType: "json",
+                                    url: "{:Url('Crontablog/save')}",
+                                    data: $("#addDialogForm").serialize(),//newsForm序列化
+                                    success: function(result) {
+                                        if (result.code == 0) {
+                                            layer.msg('添加成功！', {time: 2000}, function(){location.reload();});
+                                        } else {
+                                            layer.msg('添加失败！请稍后重试！', {time: 3000});
+                                        }
+                                    },
+                                    error: function() {
+                                        alert("异常！");
+                                    }
+                                });
+                            },
+                            btn2: function (index, layero) {
+                                //return false 开启该代码可禁止点击该按钮关闭
+                            }
+                        });
+                        break;
                     case 'delete':
                         console.log(checkStatus);
                         layer.confirm('真的删除选中行么', function (index) {

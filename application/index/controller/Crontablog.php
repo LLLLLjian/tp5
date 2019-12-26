@@ -36,7 +36,7 @@ class Crontablog extends Common
      */
     public function save(Request $request)
     {
-        //
+        var_dump($request->post());exit;
     }
 
     /**
