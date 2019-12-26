@@ -133,9 +133,6 @@
                             area:['50%','70%'],
                             content: $('#addDialog').html(), //这里content是一个普通的String
                             btn: ['确定', '取消'],
-                            success: function (index, layero) {
-                                form.render();
-                            },
                             yes: function (index, layero) {
                                 //ajax提交
                                 $.ajax({
