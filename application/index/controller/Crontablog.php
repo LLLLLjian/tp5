@@ -38,9 +38,13 @@ class Crontablog extends Common
     public function save(Request $request)
     {
         $crontabLogModel = new CrontablogModel();
-        $crontabLogModel->data($request->post());
-        // 只会保存数据表中有的字段
-        $tempFlag = $crontabLogModel->allowField(true)->save();
+        $postParam = $request->post();
+        var_dump($postParam);exit;
+        $postParam->data([
+            'name'  =>  'thinkphp',
+            'email' =>  'thinkphp@qq.com'
+        ]);
+        $tempFlag = $crontabLogModel->save();
         if ($tempFlag) {
             echo json_encode(array('code' => 0, 'msg' => '添加成功'));
         } else {
