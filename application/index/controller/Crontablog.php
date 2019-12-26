@@ -5,6 +5,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use app\index\model\Crontablog as CrontablogModel;
 
 class Crontablog extends Common
 {
@@ -36,7 +37,16 @@ class Crontablog extends Common
      */
     public function save(Request $request)
     {
-        var_dump($request->post());exit;
+        $crontabLogModel = new CrontablogModel();
+        $crontabLogModel->data($request->post());
+        // 只会保存数据表中有的字段
+        $tempFlag = $crontabLogModel->allowField(true)->save();
+        if ($tempFlag) {
+            echo json_encode(array('code' => 0, 'msg' => '添加成功'));
+        } else {
+            echo json_encode(array('code' => 1, 'msg' => '添加失败, 请稍后再试.'));
+        }
+       
     }
 
     /**
