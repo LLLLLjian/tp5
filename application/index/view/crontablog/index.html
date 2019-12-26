@@ -250,6 +250,11 @@
 
 <!--添加操作-->
 <script type="text/html" id="addDialog">
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    });
+    
     <form class="layui-form" action="{:Url('Crontablog/add')}" style="padding: 20px;" lay-filter="addDialogForm" id="addDialogForm">
         <div class="layui-form-item">
             <label class="layui-form-label">运行的脚本:</label>
